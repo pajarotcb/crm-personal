@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRM MicroVidas — Correcciones</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f6f9; color: #1a1a2e; }
+
+    header { background: #1a1a2e; color: white; padding: 24px 32px; }
+    header h1 { font-size: 20px; font-weight: 600; }
+    header p { font-size: 13px; color: #8892b0; margin-top: 4px; }
+
+    .container { max-width: 900px; margin: 32px auto; padding: 0 24px; }
+
+    .summary-bar { display: flex; gap: 16px; margin-bottom: 32px; }
+    .summary-card { flex: 1; background: white; border-radius: 10px; padding: 16px 20px; border-left: 4px solid #ccc; }
+    .summary-card.rojo { border-color: #e74c3c; }
+    .summary-card.naranja { border-color: #f39c12; }
+    .summary-card.azul { border-color: #3498db; }
+    .summary-card .num { font-size: 28px; font-weight: 700; }
+    .summary-card .label { font-size: 12px; color: #666; margin-top: 2px; }
+
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+    .badge.rojo { background: #fdecea; color: #c0392b; }
+    .badge.naranja { background: #fef9e7; color: #d68910; }
+    .badge.azul { background: #eaf4fb; color: #1a6fa8; }
+
+    .card { background: white; border-radius: 10px; margin-bottom: 10px; overflow: hidden; border: 1px solid #e8eaf0; }
+    .card-header { padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+    .card-header:hover { background: #fafbfc; }
+    .card-title { font-size: 14px; font-weight: 600; }
+    .card-sub { font-size: 12px; color: #888; margin-top: 2px; }
+    .arrow { font-size: 12px; color: #aaa; transition: transform 0.2s; }
+    .card.open .arrow { transform: rotate(90deg); }
+
+    .card-body { display: none; padding: 16px 20px; border-top: 1px solid #f0f0f0; }
+    .card.open .card-body { display: block; }
+
+    .formula-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .formula-box { background: #f8f9fa; border-radius: 6px; padding: 10px 14px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+    .formula-box .flabel { font-size: 10px; color: #999; font-family: sans-serif; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .formula-box.vieja { border-left: 3px solid #e74c3c; color: #c0392b; }
+    .formula-box.nueva { border-left: 3px solid #27ae60; color: #1e8449; }
+
+    .explanation { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 14px; }
+
+    .actions { display: flex; gap: 10px; }
+    .btn { padding: 8px 18px; border-radius: 6px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+    .btn:hover { opacity: 0.85; }
+    .btn-accept { background: #27ae60; color: white; }
+    .btn-reject { background: #f0f0f0; color: #555; }
+    .btn-accepted { background: #d5f5e3; color: #1e8449; cursor: default; }
+    .btn-rejected { background: #fdecea; color: #c0392b; cursor: default; }
+
+    .status-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+    .status-pill.pendiente { background: #eef0f5; color: #888; }
+    .status-pill.aceptado { background: #d5f5e3; color: #1e8449; }
+    .status-pill.rechazado { background: #fdecea; color: #c0392b; }
+
+    footer { text-align: center; color: #aaa; font-size: 12px; padding: 40px 0 24px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>CRM MicroVidas — Correcciones de Fórmulas</h1>
+  <p>Revisá cada cambio propuesto y aceptá o rechazá antes de aplicarlo al archivo</p>
+</header>
+
+<div class="container">
+
+  <div class="summary-bar">
+    <div class="summary-card rojo">
+      <div class="num">13</div>
+      <div class="label">Celdas con #REF! en RESPONSABLE</div>
+    </div>
+    <div class="summary-card naranja">
+      <div class="num">13</div>
+      <div class="label">FECHA ALTA con datos incorrectos</div>
+    </div>
+    <div class="summary-card azul">
+      <div class="num">31</div>
+      <div class="label">FECHA ACCION mostrando 1/0/1900</div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 1: RESPONSABLE -->
+  <div class="section">
+    <div class="section-title">
+      <span class="badge rojo">ERROR CRÍTICO</span>
+      Campo RESPONSABLE — #REF! en fichas de clientes
+    </div>
+
+    <div class="card" id="c-resp">
+      <div class="card-header" onclick="toggle('c-resp')">
+        <div>
+          <div class="card-title">RESPONSABLE → fórmula rota por columna eliminada</div>
+          <div class="card-sub">Afecta: clientes 1, 4, 5, 6, 8, 9, 10, 12, 20, 21, 22, 23, 24</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="status-pill pendiente" id="pill-resp">Pendiente</span>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="explanation">
+          La fórmula original referenciaba una celda del CRM que fue eliminada o movida. Excel destruyó la referencia y la dejó como <code>#REF!</code>. Las fichas que sí funcionan bien usan un VLOOKUP contra la tabla principal — esa misma fórmula se puede aplicar a las fichas rotas.
+        </p>
+        <div class="formula-row">
+          <div class="formula-box vieja">
+            <div class="flabel">Fórmula actual (rota)</div>
+            =#REF!
+          </div>
+          <div class="formula-box nueva">
+            <div class="flabel">Fórmula corregida</div>
+            =VLOOKUP($B$2,'CRM '!$A$7:$N$41,2,FALSE)
+          </div>
+        </div>
+        <p class="explanation" style="margin-bottom:14px;">
+          <strong>Qué hace:</strong> busca el ID del cliente (celda B2 de cada ficha) en la tabla CRM y trae el nombre del responsable (columna 2 = columna B del CRM).
+        </p>
+        <div class="actions">
+          <button class="btn btn-accept" onclick="accept('resp', this)">✓ Aceptar para los 13 clientes</button>
+          <button class="btn btn-reject" onclick="reject('resp', this)">✗ Rechazar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 2: FECHA ALTA -->
+  <div class="section">
+    <div class="section-title">
+      <span class="badge naranja">DATO INCORRECTO</span>
+      Campo FECHA ALTA — muestra el nombre del Responsable
+    </div>
+
+    <div class="card" id="c-fecha-alta">
+      <div class="card-header" onclick="toggle('c-fecha-alta')">
+        <div>
+          <div class="card-title">FECHA ALTA → muestra "Moncho", "Tomi", etc. en vez de una fecha</div>
+          <div class="card-sub">Afecta: clientes 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 20, 21, 22, 23, 24</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="status-pill pendiente" id="pill-fecha-alta">Pendiente</span>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="explanation">
+          La fórmula hace un VLOOKUP con índice 2 (columna B del CRM = "Responsable"). El campo FECHA ALTA no existe como columna en el CRM, así que la fórmula trae el dato equivocado. Hay dos opciones para corregirlo:
+        </p>
+
+        <p style="font-weight:600; font-size:13px; margin-bottom:10px;">Opción A — Ingresar la fecha manualmente en cada ficha (recomendado)</p>
+        <div class="formula-row">
+          <div class="formula-box vieja">
+            <div class="flabel">Fórmula actual (incorrecta)</div>
+            =VLOOKUP($B$2,'CRM '!$A$7:$N$27,2,FALSE)
+          </div>
+          <div class="formula-box nueva">
+            <div class="flabel">Reemplazar por texto fijo</div>
+            [ingresar fecha manualmente, ej: 01/08/2025]
+          </div>
+        </div>
+
+        <p style="font-weight:600; font-size:13px; margin-bottom:10px; margin-top:16px;">Opción B — Agregar columna FECHA ALTA al CRM y actualizar el VLOOKUP</p>
+        <div class="formula-row">
+          <div class="formula-box vieja">
+            <div class="flabel">Fórmula actual (incorrecta)</div>
+            =VLOOKUP($B$2,'CRM '!$A$7:$N$27,2,FALSE)
+          </div>
+          <div class="formula-box nueva">
+            <div class="flabel">Con nueva columna (índice 3)</div>
+            =VLOOKUP($B$2,'CRM '!$A$7:$O$41,3,FALSE)
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:16px;">
+          <button class="btn btn-accept" onclick="accept('fecha-alta', this)">✓ Acepto — lo cargo manualmente</button>
+          <button class="btn btn-reject" onclick="reject('fecha-alta', this)">✗ Rechazar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 3: FECHA ACCION -->
+  <div class="section">
+    <div class="section-title">
+      <span class="badge azul">DATO VACÍO</span>
+      Campo FECHA ACCION — muestra 1/0/1900 en vez de vacío
+    </div>
+
+    <div class="card" id="c-fecha-acc">
+      <div class="card-header" onclick="toggle('c-fecha-acc')">
+        <div>
+          <div class="card-title">FECHA ACCION → celda vacía interpretada como fecha cero</div>
+          <div class="card-sub">Afecta: prácticamente todos los clientes</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="status-pill pendiente" id="pill-fecha-acc">Pendiente</span>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="explanation">
+          La fórmula apunta a la celda donde debería estar la fecha del próximo paso PENDIENTE. Cuando esa celda está vacía, Excel devuelve 0 y como el campo está formateado como fecha, muestra <strong>1/0/1900</strong>. No hay un dato equivocado — simplemente falta la fecha. La corrección agrega un condicional para mostrar vacío en ese caso, y usa LOOKUP dinámico para encontrar automáticamente la última fecha cargada.
+        </p>
+        <div class="formula-row">
+          <div class="formula-box vieja">
+            <div class="flabel">Fórmula actual (varía por ficha)</div>
+            =+D52 &nbsp;&nbsp; o &nbsp;&nbsp; =+D38
+          </div>
+          <div class="formula-box nueva">
+            <div class="flabel">Fórmula corregida (dinámica)</div>
+            =IFERROR(LOOKUP(2,1/(D28:D100&lt;&gt;""),D28:D100),"")
+          </div>
+        </div>
+        <p class="explanation">
+          <strong>Qué hace:</strong> busca la última celda no vacía en la columna D de la tabla de seguimiento y la muestra. Si no hay ninguna, muestra vacío en vez de <code>1/0/1900</code>. El rango D28:D100 puede ajustarse al rango real de cada ficha.
+        </p>
+        <div class="actions">
+          <button class="btn btn-accept" onclick="accept('fecha-acc', this)">✓ Aceptar para todos los clientes</button>
+          <button class="btn btn-reject" onclick="reject('fecha-acc', this)">✗ Rechazar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>CRM MicroVidas · Auditoría de fórmulas · Junio 2026</footer>
+
+<script>
+  function toggle(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+
+  function accept(key, btn) {
+    const pill = document.getElementById('pill-' + key);
+    pill.textContent = 'Aceptado';
+    pill.className = 'status-pill aceptado';
+    btn.textContent = '✓ Aceptado';
+    btn.className = 'btn btn-accepted';
+    btn.disabled = true;
+    btn.nextElementSibling.disabled = true;
+    btn.nextElementSibling.className = 'btn btn-reject';
+  }
+
+  function reject(key, btn) {
+    const pill = document.getElementById('pill-' + key);
+    pill.textContent = 'Rechazado';
+    pill.className = 'status-pill rechazado';
+    btn.textContent = '✗ Rechazado';
+    btn.className = 'btn btn-rejected';
+    btn.disabled = true;
+    btn.previousElementSibling.disabled = true;
+  }
+</script>
+
+</body>
+</html>
