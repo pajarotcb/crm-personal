@@ -3,63 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CRM MicroVidas — Correcciones</title>
+  <title>CRM MicroVidas — Panel</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f6f9; color: #1a1a2e; }
 
-    header { background: #1a1a2e; color: white; padding: 24px 32px; }
+    header { background: #1a1a2e; color: white; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; }
     header h1 { font-size: 20px; font-weight: 600; }
     header p { font-size: 13px; color: #8892b0; margin-top: 4px; }
+    .nav-tabs { display: flex; gap: 8px; }
+    .nav-tab { padding: 8px 18px; border-radius: 6px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; background: rgba(255,255,255,0.1); color: white; transition: background 0.15s; }
+    .nav-tab.active { background: white; color: #1a1a2e; }
+    .nav-tab:hover:not(.active) { background: rgba(255,255,255,0.2); }
 
-    .container { max-width: 900px; margin: 32px auto; padding: 0 24px; }
+    .container { max-width: 960px; margin: 32px auto; padding: 0 24px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
+    /* ── ANÁLISIS ── */
     .summary-bar { display: flex; gap: 16px; margin-bottom: 32px; }
     .summary-card { flex: 1; background: white; border-radius: 10px; padding: 16px 20px; border-left: 4px solid #ccc; }
-    .summary-card.rojo { border-color: #e74c3c; }
-    .summary-card.naranja { border-color: #f39c12; }
+    .summary-card.verde { border-color: #27ae60; }
     .summary-card.azul { border-color: #3498db; }
+    .summary-card.naranja { border-color: #f39c12; }
+    .summary-card.rojo { border-color: #e74c3c; }
     .summary-card .num { font-size: 28px; font-weight: 700; }
     .summary-card .label { font-size: 12px; color: #666; margin-top: 2px; }
 
-    .section { margin-bottom: 32px; }
-    .section-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .section { margin-bottom: 36px; }
+    .section-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
     .badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
     .badge.rojo { background: #fdecea; color: #c0392b; }
     .badge.naranja { background: #fef9e7; color: #d68910; }
-    .badge.azul { background: #eaf4fb; color: #1a6fa8; }
+    .badge.verde { background: #eafaf1; color: #1e8449; }
+    .badge.gris { background: #eef0f5; color: #666; }
 
-    .card { background: white; border-radius: 10px; margin-bottom: 10px; overflow: hidden; border: 1px solid #e8eaf0; }
-    .card-header { padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
-    .card-header:hover { background: #fafbfc; }
-    .card-title { font-size: 14px; font-weight: 600; }
-    .card-sub { font-size: 12px; color: #888; margin-top: 2px; }
-    .arrow { font-size: 12px; color: #aaa; transition: transform 0.2s; }
-    .card.open .arrow { transform: rotate(90deg); }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; border: 1px solid #e8eaf0; }
+    th { background: #f8f9fa; padding: 12px 16px; font-size: 12px; font-weight: 700; color: #444; text-align: left; border-bottom: 1px solid #e8eaf0; }
+    td { padding: 11px 16px; font-size: 13px; border-bottom: 1px solid #f4f4f4; }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) { background: #fafbfc; }
 
-    .card-body { display: none; padding: 16px 20px; border-top: 1px solid #f0f0f0; }
-    .card.open .card-body { display: block; }
+    .bar-wrap { background: #f0f0f0; border-radius: 20px; height: 10px; flex: 1; }
+    .bar-fill { height: 10px; border-radius: 20px; }
 
-    .formula-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-    .formula-box { background: #f8f9fa; border-radius: 6px; padding: 10px 14px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
-    .formula-box .flabel { font-size: 10px; color: #999; font-family: sans-serif; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .formula-box.vieja { border-left: 3px solid #e74c3c; color: #c0392b; }
-    .formula-box.nueva { border-left: 3px solid #27ae60; color: #1e8449; }
+    /* ── FORMULARIO ── */
+    .form-header { display: flex; gap: 16px; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; }
+    .form-header select { flex: 1; min-width: 220px; padding: 10px 14px; border-radius: 8px; border: 1px solid #dde0e8; font-size: 14px; font-weight: 600; background: white; }
+    .btn-export { padding: 10px 20px; border-radius: 8px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; background: #1a1a2e; color: white; }
+    .btn-export:hover { opacity: 0.85; }
 
-    .explanation { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 14px; }
+    .form-card { background: white; border-radius: 12px; border: 1px solid #e8eaf0; padding: 24px; margin-bottom: 16px; }
+    .form-card h3 { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 9px 12px; border-radius: 7px; border: 1px solid #dde0e8;
+      font-size: 13px; font-family: inherit; background: #fafbfc;
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: #3498db; background: white;
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
 
-    .actions { display: flex; gap: 10px; }
-    .btn { padding: 8px 18px; border-radius: 6px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
-    .btn:hover { opacity: 0.85; }
-    .btn-accept { background: #27ae60; color: white; }
-    .btn-reject { background: #f0f0f0; color: #555; }
-    .btn-accepted { background: #d5f5e3; color: #1e8449; cursor: default; }
-    .btn-rejected { background: #fdecea; color: #c0392b; cursor: default; }
+    .tipo-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tipo-chip { padding: 6px 14px; border-radius: 20px; border: 1px solid #dde0e8; font-size: 12px; font-weight: 600; cursor: pointer; background: white; color: #555; transition: all 0.15s; }
+    .tipo-chip.selected { background: #1a1a2e; color: white; border-color: #1a1a2e; }
 
-    .status-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
-    .status-pill.pendiente { background: #eef0f5; color: #888; }
-    .status-pill.aceptado { background: #d5f5e3; color: #1e8449; }
-    .status-pill.rechazado { background: #fdecea; color: #c0392b; }
+    .form-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-save { padding: 10px 24px; border-radius: 8px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; background: #27ae60; color: white; }
+    .btn-save:hover { opacity: 0.85; }
+    .btn-clear { padding: 10px 18px; border-radius: 8px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; background: #f0f0f0; color: #555; }
+    .saved-badge { font-size: 12px; color: #27ae60; font-weight: 600; opacity: 0; transition: opacity 0.3s; padding: 10px 0; }
+    .saved-badge.show { opacity: 1; }
+
+    .client-info { background: #f8f9fa; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+    .client-info span { font-size: 12px; color: #666; }
+    .client-info strong { color: #1a1a2e; }
 
     footer { text-align: center; color: #aaa; font-size: 12px; padding: 40px 0 24px; }
   </style>
@@ -67,570 +91,443 @@
 <body>
 
 <header>
-  <h1>CRM MicroVidas — Correcciones de Fórmulas</h1>
-  <p>Revisá cada cambio propuesto y aceptá o rechazá antes de aplicarlo al archivo</p>
+  <div>
+    <h1>CRM MicroVidas</h1>
+    <p>Panel de gestión · 31 clientes</p>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showTab('analisis', this)">Análisis</button>
+    <button class="nav-tab" onclick="showTab('formulario', this)">Completar datos</button>
+  </div>
 </header>
 
 <div class="container">
 
-  <div class="summary-bar">
-    <div class="summary-card rojo">
-      <div class="num">13</div>
-      <div class="label">Celdas con #REF! en RESPONSABLE</div>
-    </div>
-    <div class="summary-card naranja">
-      <div class="num">13</div>
-      <div class="label">FECHA ALTA con datos incorrectos</div>
-    </div>
-    <div class="summary-card azul">
-      <div class="num">31</div>
-      <div class="label">FECHA ACCION mostrando 1/0/1900</div>
-    </div>
-  </div>
+  <!-- ══════════════════════════════════════════════
+       TAB 1: ANÁLISIS
+  ══════════════════════════════════════════════ -->
+  <div class="tab-content active" id="tab-analisis">
 
-  <!-- BLOQUE 1: RESPONSABLE -->
-  <div class="section">
-    <div class="section-title">
-      <span class="badge rojo">ERROR CRÍTICO</span>
-      Campo RESPONSABLE — #REF! en fichas de clientes
+    <div class="summary-bar" style="margin-top:8px;">
+      <div class="summary-card verde">
+        <div class="num">31</div>
+        <div class="label">Clientes totales</div>
+      </div>
+      <div class="summary-card azul">
+        <div class="num">2</div>
+        <div class="label">Ventas ganadas</div>
+      </div>
+      <div class="summary-card naranja">
+        <div class="num">6</div>
+        <div class="label">Acciones vencidas</div>
+      </div>
+      <div class="summary-card rojo">
+        <div class="num">5</div>
+        <div class="label">Sin seguimiento activo</div>
+      </div>
     </div>
 
-    <div class="card" id="c-resp">
-      <div class="card-header" onclick="toggle('c-resp')">
-        <div>
-          <div class="card-title">RESPONSABLE → fórmula rota por columna eliminada</div>
-          <div class="card-sub">Afecta: clientes 1, 4, 5, 6, 8, 9, 10, 12, 20, 21, 22, 23, 24</div>
+    <!-- POR RESPONSABLE -->
+    <div class="section">
+      <div class="section-title">Por Responsable</div>
+      <table>
+        <thead><tr>
+          <th>Responsable</th><th>Clientes</th><th>Ventas Ganadas</th><th>En Proceso</th><th>Abiertos</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><strong>Moncho</strong></td><td>11</td><td>0</td><td>0</td><td>11</td></tr>
+          <tr><td><strong>Tomi</strong></td><td>8</td><td>0</td><td>0</td><td>8</td></tr>
+          <tr><td><strong>Colo</strong></td><td>5</td><td>0</td><td>0</td><td>5</td></tr>
+          <tr><td><strong>Waldemar</strong></td><td>3</td><td>2</td><td>1</td><td>0</td></tr>
+          <tr><td><strong>Bruno</strong></td><td>2</td><td>0</td><td>0</td><td>2</td></tr>
+          <tr><td><strong>Ledesma</strong></td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td style="color:#aaa;"><em>Sin asignar</em></td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- POR ZONA -->
+    <div class="section">
+      <div class="section-title">Por Zona / Localidad</div>
+      <table>
+        <thead><tr><th>Zona</th><th>Clientes</th><th>Responsable/s</th></tr></thead>
+        <tbody>
+          <tr><td>San Antonio de Areco</td><td>4</td><td>Tomi, Colo</td></tr>
+          <tr><td>Gral Belgrano</td><td>3</td><td>Tomi, Bruno</td></tr>
+          <tr><td>America</td><td>3</td><td>Moncho</td></tr>
+          <tr><td>Chacabuco - Rojas</td><td>2</td><td>Moncho</td></tr>
+          <tr><td>Piedritas</td><td>2</td><td>Moncho</td></tr>
+          <tr><td>Gob Mansilla</td><td>2</td><td>Waldemar</td></tr>
+          <tr><td>Ayacucho</td><td>1</td><td>Colo</td></tr>
+          <tr><td>Ameghino</td><td>1</td><td>Colo</td></tr>
+          <tr><td>Mendoza</td><td>1</td><td>Colo</td></tr>
+          <tr><td>Gualeguay</td><td>1</td><td>Walde</td></tr>
+          <tr><td>Arias, Córdoba</td><td>1</td><td>Tomi</td></tr>
+          <tr><td>Rio Negro</td><td>1</td><td>Tomi</td></tr>
+          <tr><td>Brandsen</td><td>1</td><td>Bruno</td></tr>
+          <tr><td>Cañuelas</td><td>1</td><td>Tomi</td></tr>
+          <tr><td>Guerrero</td><td>1</td><td>Tomi</td></tr>
+          <tr><td>9 de Julio</td><td>1</td><td>Moncho</td></tr>
+          <tr><td>Carmen de Areco</td><td>1</td><td>Moncho</td></tr>
+          <tr><td>Cap Sarmiento</td><td>1</td><td>Ledesma</td></tr>
+          <tr><td>Fernandez</td><td>1</td><td>Tomi</td></tr>
+          <tr><td style="color:#aaa;"><em>Sin zona</em></td><td>1</td><td>Moncho</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ESTADO DE VENTAS -->
+    <div class="section">
+      <div class="section-title">Estado de Ventas</div>
+      <div style="background:white;border-radius:10px;border:1px solid #e8eaf0;padding:20px 24px;display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-size:13px;font-weight:600;width:100px;">Abierta</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:87%;background:#3498db;"></div></div>
+          <span style="font-size:13px;font-weight:700;width:40px;text-align:right;">27</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <span class="status-pill pendiente" id="pill-resp">Pendiente</span>
-          <span class="arrow">▶</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <p class="explanation">
-          La fórmula original referenciaba una celda del CRM que fue eliminada o movida. Excel destruyó la referencia y la dejó como <code>#REF!</code>. Las fichas que sí funcionan bien usan un VLOOKUP contra la tabla principal — esa misma fórmula se puede aplicar a las fichas rotas.
-        </p>
-        <div class="formula-row">
-          <div class="formula-box vieja">
-            <div class="flabel">Fórmula actual (rota)</div>
-            =#REF!
-          </div>
-          <div class="formula-box nueva">
-            <div class="flabel">Fórmula corregida</div>
-            =VLOOKUP($B$2,'CRM '!$A$7:$N$41,2,FALSE)
-          </div>
-        </div>
-        <p class="explanation" style="margin-bottom:14px;">
-          <strong>Qué hace:</strong> busca el ID del cliente (celda B2 de cada ficha) en la tabla CRM y trae el nombre del responsable (columna 2 = columna B del CRM).
-        </p>
-        <div class="actions">
-          <button class="btn btn-accept" onclick="accept('resp', this)">✓ Aceptar para los 13 clientes</button>
-          <button class="btn btn-reject" onclick="reject('resp', this)">✗ Rechazar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BLOQUE 2: FECHA ALTA -->
-  <div class="section">
-    <div class="section-title">
-      <span class="badge naranja">DATO INCORRECTO</span>
-      Campo FECHA ALTA — muestra el nombre del Responsable
-    </div>
-
-    <div class="card" id="c-fecha-alta">
-      <div class="card-header" onclick="toggle('c-fecha-alta')">
-        <div>
-          <div class="card-title">FECHA ALTA → muestra "Moncho", "Tomi", etc. en vez de una fecha</div>
-          <div class="card-sub">Afecta: clientes 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 20, 21, 22, 23, 24</div>
+          <span style="font-size:13px;font-weight:600;width:100px;">Cerrada</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:6%;background:#27ae60;"></div></div>
+          <span style="font-size:13px;font-weight:700;width:40px;text-align:right;">2</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <span class="status-pill pendiente" id="pill-fecha-alta">Pendiente</span>
-          <span class="arrow">▶</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <p class="explanation">
-          La fórmula hace un VLOOKUP con índice 2 (columna B del CRM = "Responsable"). El campo FECHA ALTA no existe como columna en el CRM, así que la fórmula trae el dato equivocado. Hay dos opciones para corregirlo:
-        </p>
-
-        <p style="font-weight:600; font-size:13px; margin-bottom:10px;">Opción A — Ingresar la fecha manualmente en cada ficha (recomendado)</p>
-        <div class="formula-row">
-          <div class="formula-box vieja">
-            <div class="flabel">Fórmula actual (incorrecta)</div>
-            =VLOOKUP($B$2,'CRM '!$A$7:$N$27,2,FALSE)
-          </div>
-          <div class="formula-box nueva">
-            <div class="flabel">Reemplazar por texto fijo</div>
-            [ingresar fecha manualmente, ej: 01/08/2025]
-          </div>
-        </div>
-
-        <p style="font-weight:600; font-size:13px; margin-bottom:10px; margin-top:16px;">Opción B — Agregar columna FECHA ALTA al CRM y actualizar el VLOOKUP</p>
-        <div class="formula-row">
-          <div class="formula-box vieja">
-            <div class="flabel">Fórmula actual (incorrecta)</div>
-            =VLOOKUP($B$2,'CRM '!$A$7:$N$27,2,FALSE)
-          </div>
-          <div class="formula-box nueva">
-            <div class="flabel">Con nueva columna (índice 3)</div>
-            =VLOOKUP($B$2,'CRM '!$A$7:$O$41,3,FALSE)
-          </div>
-        </div>
-
-        <div class="actions" style="margin-top:16px;">
-          <button class="btn btn-accept" onclick="accept('fecha-alta', this)">✓ Acepto — lo cargo manualmente</button>
-          <button class="btn btn-reject" onclick="reject('fecha-alta', this)">✗ Rechazar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BLOQUE 3: FECHA ACCION -->
-  <div class="section">
-    <div class="section-title">
-      <span class="badge azul">DATO VACÍO</span>
-      Campo FECHA ACCION — muestra 1/0/1900 en vez de vacío
-    </div>
-
-    <div class="card" id="c-fecha-acc">
-      <div class="card-header" onclick="toggle('c-fecha-acc')">
-        <div>
-          <div class="card-title">FECHA ACCION → celda vacía interpretada como fecha cero</div>
-          <div class="card-sub">Afecta: prácticamente todos los clientes</div>
+          <span style="font-size:13px;font-weight:600;width:100px;">En proceso</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:3%;background:#f39c12;"></div></div>
+          <span style="font-size:13px;font-weight:700;width:40px;text-align:right;">1</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <span class="status-pill pendiente" id="pill-fecha-acc">Pendiente</span>
-          <span class="arrow">▶</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <p class="explanation">
-          La fórmula apunta a la celda donde debería estar la fecha del próximo paso PENDIENTE. Cuando esa celda está vacía, Excel devuelve 0 y como el campo está formateado como fecha, muestra <strong>1/0/1900</strong>. No hay un dato equivocado — simplemente falta la fecha. La corrección agrega un condicional para mostrar vacío en ese caso, y usa LOOKUP dinámico para encontrar automáticamente la última fecha cargada.
-        </p>
-        <div class="formula-row">
-          <div class="formula-box vieja">
-            <div class="flabel">Fórmula actual (varía por ficha)</div>
-            =+D52 &nbsp;&nbsp; o &nbsp;&nbsp; =+D38
-          </div>
-          <div class="formula-box nueva">
-            <div class="flabel">Fórmula corregida (dinámica)</div>
-            =IFERROR(LOOKUP(2,1/(D28:D100&lt;&gt;""),D28:D100),"")
-          </div>
-        </div>
-        <p class="explanation">
-          <strong>Qué hace:</strong> busca la última celda no vacía en la columna D de la tabla de seguimiento y la muestra. Si no hay ninguna, muestra vacío en vez de <code>1/0/1900</code>. El rango D28:D100 puede ajustarse al rango real de cada ficha.
-        </p>
-        <div class="actions">
-          <button class="btn btn-accept" onclick="accept('fecha-acc', this)">✓ Aceptar para todos los clientes</button>
-          <button class="btn btn-reject" onclick="reject('fecha-acc', this)">✗ Rechazar</button>
+          <span style="font-size:13px;font-weight:600;width:100px;">Sin estado</span>
+          <div class="bar-wrap"><div class="bar-fill" style="width:3%;background:#ccc;"></div></div>
+          <span style="font-size:13px;font-weight:700;width:40px;text-align:right;">1</span>
         </div>
       </div>
     </div>
+
+    <!-- SIN SEGUIMIENTO -->
+    <div class="section">
+      <div class="section-title"><span class="badge rojo">Atención</span> Sin seguimiento activo</div>
+      <table>
+        <thead><tr><th>#</th><th>Cliente</th><th>Responsable</th><th>Problema</th></tr></thead>
+        <tbody>
+          <tr><td>4</td><td>Dario Aguirre</td><td>Moncho</td><td>Encargado sin estado ni actividad</td></tr>
+          <tr><td>6</td><td>Bernardo Batle</td><td>Moncho</td><td>Encargado sin estado ni actividad</td></tr>
+          <tr><td>8</td><td>Fede (enc. Paolo)</td><td>Moncho</td><td>Encargado sin estado ni actividad</td></tr>
+          <tr><td>12</td><td><em style="color:#aaa;">Sin nombre</em></td><td><em style="color:#aaa;">Sin asignar</em></td><td>Registro vacío — Campo la Fe</td></tr>
+          <tr><td>30</td><td>Lucas Estecho</td><td>Waldemar</td><td>Venta ganada sin actividad registrada</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ACCIONES VENCIDAS -->
+    <div class="section">
+      <div class="section-title"><span class="badge naranja">Vencidas</span> Acciones pendientes sin ejecutar</div>
+      <table>
+        <thead><tr><th>Cliente</th><th>Responsable</th><th>Fecha vencida</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>Juan Iturrioz #13</td><td>Colo</td><td style="color:#e74c3c;font-weight:600;">09/04/2026</td><td><span class="badge rojo">59 días</span></td></tr>
+          <tr><td>Maximiliano Bordas #15</td><td>Colo</td><td style="color:#e74c3c;font-weight:600;">15/04/2026</td><td><span class="badge rojo">53 días</span></td></tr>
+          <tr><td>Nicolas Garcia #18</td><td>Tomi</td><td style="color:#e74c3c;font-weight:600;">09/04/2026</td><td><span class="badge rojo">59 días</span></td></tr>
+          <tr><td>Juan Duran #25</td><td>Moncho</td><td style="color:#e74c3c;font-weight:600;">01/06/2026</td><td><span class="badge naranja">6 días</span></td></tr>
+          <tr><td>Ruben Mirada #28</td><td>Ledesma</td><td style="color:#e74c3c;font-weight:600;">15/04/2026</td><td><span class="badge rojo">53 días</span></td></tr>
+          <tr><td>Kiko Nazar #29</td><td>Waldemar</td><td style="color:#e74c3c;font-weight:600;">15/04/2026</td><td><span class="badge rojo">53 días</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       TAB 2: FORMULARIO
+  ══════════════════════════════════════════════ -->
+  <div class="tab-content" id="tab-formulario">
+
+    <div class="form-header" style="margin-top:8px;">
+      <div style="flex:1;">
+        <label style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;">Seleccionar cliente</label>
+        <select id="clienteSelect" onchange="cargarCliente()">
+          <option value="">— Elegir cliente —</option>
+          <option value="1">1 · Beto (Piedritas) — Moncho</option>
+          <option value="2">2 · José Milberg (Piedritas) — Moncho</option>
+          <option value="3">3 · Federico Campolongo (America) — Moncho</option>
+          <option value="4">4 · Dario Aguirre (America) — Moncho</option>
+          <option value="5">5 · Diego Rotilli (América) — Moncho</option>
+          <option value="6">6 · Bernardo Batle (America) — Moncho</option>
+          <option value="7">7 · Paolo de Luca (Chacabuco-Rojas) — Moncho</option>
+          <option value="8">8 · Fede enc. Paolo (Chacabuco-Rojas) — Moncho</option>
+          <option value="9">9 · Lorenzo Leanes (Sn. A. de Areco) — Tomi</option>
+          <option value="10">10 · Marcos Giudici (Sn. A. de Areco) — Colo</option>
+          <option value="11">11 · Fernando Fernandez (Sn. A. de Areco) — Colo</option>
+          <option value="12">12 · (sin nombre) Campo la Fe — sin asignar</option>
+          <option value="13">13 · Juan Iturrioz (Ayacucho) — Colo</option>
+          <option value="14">14 · Nicolas Echevarria (Gualeguay) — Walde</option>
+          <option value="15">15 · Maximiliano Bordas (Mendoza) — Colo</option>
+          <option value="16">16 · Edgardo Fernandez (Ameghino) — Colo</option>
+          <option value="17">17 · Joaquín Gonzales Inocenti (Arias, Cba) — Tomi</option>
+          <option value="18">18 · Nicolas Garcia (Rio Negro) — Tomi</option>
+          <option value="19">19 · Andres Leglise (Gral Belgrano) — Bruno</option>
+          <option value="20">20 · Javier Linari (Brandsen) — Bruno</option>
+          <option value="21">21 · Katya Prager (Gral Belgrano) — Tomi</option>
+          <option value="22">22 · Ciro campo ines (Cañuelas) — Tomi</option>
+          <option value="23">23 · Hernan Finnegan (Gral Belgrano) — Tomi</option>
+          <option value="24">24 · Jorge Olmedo (Guerrero) — Tomi</option>
+          <option value="25">25 · Juan Duran — Moncho</option>
+          <option value="26">26 · Alejandro Sordian (9 de Julio) — Moncho</option>
+          <option value="27">27 · Alfredo (Carmen de Areco) — Moncho</option>
+          <option value="28">28 · Ruben Mirada (Cap Sarmiento) — Ledesma</option>
+          <option value="29">29 · Kiko Nazar (Gob Mansilla) — Waldemar</option>
+          <option value="30">30 · Lucas Estecho (Gob Mansilla) — Waldemar</option>
+          <option value="31">31 · Tomas Gowland (Fernandez) — Tomi</option>
+        </select>
+      </div>
+      <button class="btn-export" onclick="exportarCSV()">⬇ Exportar CSV</button>
+    </div>
+
+    <div id="formContainer" style="display:none;">
+
+      <div class="client-info" id="clienteInfo"></div>
+
+      <!-- IDENTIFICACIÓN -->
+      <div class="form-card">
+        <h3>Identificación</h3>
+        <div class="form-grid cols3">
+          <div class="form-group">
+            <label>Fecha de alta</label>
+            <input type="date" id="fechaAlta" />
+          </div>
+          <div class="form-group">
+            <label>Hectáreas</label>
+            <input type="number" id="hectareas" placeholder="ej: 500" />
+          </div>
+          <div class="form-group">
+            <label>Referido por</label>
+            <input type="text" id="referido" placeholder="Nombre o empresa" />
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:16px;">
+          <label>Tipo de cliente</label>
+          <div class="tipo-grid" id="tipoGrid">
+            <button class="tipo-chip" onclick="toggleTipo(this, 'Productor')">Productor</button>
+            <button class="tipo-chip" onclick="toggleTipo(this, 'Vendedor')">Vendedor</button>
+            <button class="tipo-chip" onclick="toggleTipo(this, 'Distribuidor')">Distribuidor</button>
+            <button class="tipo-chip" onclick="toggleTipo(this, 'Ensayista')">Ensayista</button>
+            <button class="tipo-chip" onclick="toggleTipo(this, 'Referente')">Referente</button>
+            <button class="tipo-chip" onclick="toggleTipo(this, 'Agronomía')">Agronomía</button>
+            <button class="tipo-chip" onclick="toggleTipo(this, 'CREA')">CREA</button>
+            <button class="tipo-chip" onclick="toggleTipo(this, 'Universidad')">Universidad</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESTADO ACTUAL -->
+      <div class="form-card">
+        <h3>Estado actual</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Estado del cliente</label>
+            <select id="estadoCliente">
+              <option value="">— Seleccionar —</option>
+              <option>Nuevo</option>
+              <option>Contactado</option>
+              <option>Propuesta enviada</option>
+              <option>Últimos detalles</option>
+              <option>Venta Ganada</option>
+              <option>Venta Perdida</option>
+              <option>Irrelevante</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Estado de venta</label>
+            <select id="estadoVenta">
+              <option value="">— Seleccionar —</option>
+              <option>Abierta</option>
+              <option>En proceso</option>
+              <option>Cerrada</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Próxima acción</label>
+            <input type="text" id="proximaAccion" placeholder="ej: Llamar para coordinar visita" />
+          </div>
+          <div class="form-group">
+            <label>Fecha próxima acción</label>
+            <input type="date" id="fechaAccion" />
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTAS -->
+      <div class="form-card">
+        <h3>Notas de la reunión</h3>
+        <div class="form-group">
+          <label>Notas importantes</label>
+          <textarea id="notas" placeholder="Qué se habló, qué necesita, objeciones, oportunidades..."></textarea>
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label>Productos de interés</label>
+          <input type="text" id="productos" placeholder="ej: VidaMaíz, foliares soja" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-save" onclick="guardar()">Guardar</button>
+        <button class="btn-clear" onclick="limpiar()">Limpiar</button>
+        <span class="saved-badge" id="savedBadge">✓ Guardado</span>
+      </div>
+
+    </div>
+
+    <div id="formPlaceholder" style="background:white;border-radius:12px;border:1px solid #e8eaf0;padding:48px;text-align:center;color:#aaa;">
+      <div style="font-size:32px;margin-bottom:12px;">👆</div>
+      <p style="font-size:14px;">Seleccioná un cliente para completar sus datos</p>
+    </div>
+
   </div>
 
 </div>
 
-<!-- SEPARADOR -->
-<div style="max-width:900px;margin:0 auto 0;padding:0 24px;">
-  <div style="border-top:2px solid #e0e4ee;margin:8px 0 40px;position:relative;">
-    <span style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#f4f6f9;padding:0 16px;font-size:12px;color:#aaa;letter-spacing:1px;text-transform:uppercase;">Análisis del CRM</span>
-  </div>
-</div>
-
-<!-- ANÁLISIS -->
-<div class="container" id="analisis">
-
-  <div style="margin-bottom:32px;">
-    <h2 style="font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:4px;">Análisis del CRM</h2>
-    <p style="font-size:13px;color:#888;">31 clientes · MicroVidas Livestock · Estado al 07/06/2026</p>
-  </div>
-
-  <!-- SECCIÓN 1: POR RESPONSABLE -->
-  <div class="section">
-    <div class="section-title">
-      <span class="badge azul">Distribución</span>
-      Clientes por Responsable
-    </div>
-    <div class="card" style="overflow:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
-        <thead>
-          <tr style="background:#f8f9fa;border-bottom:2px solid #e8eaf0;">
-            <th style="text-align:left;padding:12px 20px;font-weight:700;color:#444;">Responsable</th>
-            <th style="text-align:center;padding:12px 16px;font-weight:700;color:#444;">Clientes</th>
-            <th style="text-align:center;padding:12px 16px;font-weight:700;color:#444;">Ventas Ganadas</th>
-            <th style="text-align:center;padding:12px 16px;font-weight:700;color:#444;">En Proceso</th>
-            <th style="text-align:center;padding:12px 16px;font-weight:700;color:#444;">Abiertos</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:11px 20px;font-weight:600;">Moncho</td>
-            <td style="text-align:center;padding:11px 16px;">11</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">11</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:11px 20px;font-weight:600;">Tomi</td>
-            <td style="text-align:center;padding:11px 16px;">8</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">8</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:11px 20px;font-weight:600;">Colo</td>
-            <td style="text-align:center;padding:11px 16px;">5</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">5</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:11px 20px;font-weight:600;">Waldemar</td>
-            <td style="text-align:center;padding:11px 16px;">3</td>
-            <td style="text-align:center;padding:11px 16px;">2</td>
-            <td style="text-align:center;padding:11px 16px;">1</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:11px 20px;font-weight:600;">Bruno</td>
-            <td style="text-align:center;padding:11px 16px;">2</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">2</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:11px 20px;font-weight:600;">Ledesma</td>
-            <td style="text-align:center;padding:11px 16px;">1</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">0</td>
-            <td style="text-align:center;padding:11px 16px;">1</td>
-          </tr>
-          <tr style="background:#fef9e7;">
-            <td style="padding:11px 20px;font-weight:600;color:#d68910;">Sin asignar</td>
-            <td style="text-align:center;padding:11px 16px;color:#d68910;">1</td>
-            <td style="text-align:center;padding:11px 16px;">—</td>
-            <td style="text-align:center;padding:11px 16px;">—</td>
-            <td style="text-align:center;padding:11px 16px;">—</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 2: POR ZONA -->
-  <div class="section">
-    <div class="section-title">
-      <span class="badge azul">Mapa</span>
-      Clientes por Zona / Localidad
-    </div>
-    <div class="card" style="overflow:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
-        <thead>
-          <tr style="background:#f8f9fa;border-bottom:2px solid #e8eaf0;">
-            <th style="text-align:left;padding:12px 20px;font-weight:700;color:#444;">Zona / Localidad</th>
-            <th style="text-align:center;padding:12px 16px;font-weight:700;color:#444;">Clientes</th>
-            <th style="text-align:left;padding:12px 20px;font-weight:700;color:#444;">Responsable(s)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">Gral Belgrano / General Belgrano</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">4</td>
-            <td style="padding:10px 20px;color:#666;">Tomi, Bruno</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:10px 20px;">San Antonio de Areco</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">4</td>
-            <td style="padding:10px 20px;color:#666;">Tomi, Colo, Sin asignar</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">America / América</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">3</td>
-            <td style="padding:10px 20px;color:#666;">Moncho</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:10px 20px;">Chacabuco-Rojas</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">2</td>
-            <td style="padding:10px 20px;color:#666;">Moncho</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">Gob. Mansilla</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">2</td>
-            <td style="padding:10px 20px;color:#666;">Waldemar</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:10px 20px;">Piedritas</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">2</td>
-            <td style="padding:10px 20px;color:#666;">Moncho</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">9 de Julio</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Moncho</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:10px 20px;">Ameghino</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Colo</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">Arias-Córdoba</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Tomi</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:10px 20px;">Ayacucho</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Colo</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">Brandsen</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Bruno</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:10px 20px;">Cañuelas</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Tomi</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">Cap. Sarmiento</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Ledesma</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:10px 20px;">Carmen de Areco</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Moncho</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">Fernandez</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Tomi</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:10px 20px;">Gualeguay</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Walde</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">Guerrero</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Tomi</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:10px 20px;">Mendoza</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Colo</td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:10px 20px;">Rio Negro</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;">1</td>
-            <td style="padding:10px 20px;color:#666;">Tomi</td>
-          </tr>
-          <tr style="background:#fef9e7;">
-            <td style="padding:10px 20px;color:#d68910;">Sin zona</td>
-            <td style="text-align:center;padding:10px 16px;font-weight:700;color:#d68910;">1</td>
-            <td style="padding:10px 20px;color:#d68910;">Moncho</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 3: ESTADO DE VENTAS -->
-  <div class="section">
-    <div class="section-title">
-      <span class="badge azul">Funnel</span>
-      Estado de Ventas
-    </div>
-    <div class="card" style="padding:24px 28px;">
-      <div style="display:flex;flex-direction:column;gap:14px;">
-
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px;">
-            <span style="font-weight:600;">Abierta</span>
-            <span style="color:#666;">27 clientes</span>
-          </div>
-          <div style="background:#eef0f5;border-radius:6px;overflow:hidden;height:22px;">
-            <div style="width:87.1%;height:100%;background:#3498db;border-radius:6px;display:flex;align-items:center;padding-left:10px;">
-              <span style="font-size:11px;color:white;font-weight:700;">87%</span>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px;">
-            <span style="font-weight:600;">Cerrada (Venta Ganada)</span>
-            <span style="color:#666;">2 clientes</span>
-          </div>
-          <div style="background:#eef0f5;border-radius:6px;overflow:hidden;height:22px;">
-            <div style="width:6.5%;height:100%;background:#27ae60;border-radius:6px;display:flex;align-items:center;padding-left:10px;">
-              <span style="font-size:11px;color:white;font-weight:700;">6%</span>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px;">
-            <span style="font-weight:600;">En Proceso</span>
-            <span style="color:#666;">1 cliente</span>
-          </div>
-          <div style="background:#eef0f5;border-radius:6px;overflow:hidden;height:22px;">
-            <div style="width:3.2%;height:100%;background:#f39c12;border-radius:6px;"></div>
-          </div>
-        </div>
-
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px;">
-            <span style="font-weight:600;color:#aaa;">Sin estado</span>
-            <span style="color:#aaa;">1 cliente</span>
-          </div>
-          <div style="background:#eef0f5;border-radius:6px;overflow:hidden;height:22px;">
-            <div style="width:3.2%;height:100%;background:#ccc;border-radius:6px;"></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 4: SIN SEGUIMIENTO ACTIVO -->
-  <div class="section">
-    <div class="section-title">
-      <span class="badge naranja">Atención</span>
-      Sin Seguimiento Activo
-    </div>
-    <div class="card" style="padding:0;">
-      <ul style="list-style:none;margin:0;padding:0;">
-        <li style="display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid #f0f0f0;">
-          <div>
-            <div style="font-size:13px;font-weight:600;">Dario Aguirre <span style="color:#aaa;font-weight:400;">#4</span></div>
-            <div style="font-size:12px;color:#999;margin-top:2px;">Sin estado, sin actividad registrada · encargado</div>
-          </div>
-          <span style="font-size:12px;color:#888;">Moncho</span>
-        </li>
-        <li style="display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-          <div>
-            <div style="font-size:13px;font-weight:600;">Bernardo Batle <span style="color:#aaa;font-weight:400;">#6</span></div>
-            <div style="font-size:12px;color:#999;margin-top:2px;">Sin estado · encargado</div>
-          </div>
-          <span style="font-size:12px;color:#888;">Moncho</span>
-        </li>
-        <li style="display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid #f0f0f0;">
-          <div>
-            <div style="font-size:13px;font-weight:600;">Fede (encargado Paolo) <span style="color:#aaa;font-weight:400;">#8</span></div>
-            <div style="font-size:12px;color:#999;margin-top:2px;">Sin estado · encargado</div>
-          </div>
-          <span style="font-size:12px;color:#888;">Moncho</span>
-        </li>
-        <li style="display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-          <div>
-            <div style="font-size:13px;font-weight:600;">Cliente sin nombre <span style="color:#aaa;font-weight:400;">#12</span></div>
-            <div style="font-size:12px;color:#999;margin-top:2px;">Sin nombre, sin responsable, sin actividad</div>
-          </div>
-          <span style="font-size:12px;color:#d68910;">Sin asignar</span>
-        </li>
-        <li style="display:flex;justify-content:space-between;align-items:center;padding:13px 20px;">
-          <div>
-            <div style="font-size:13px;font-weight:600;">Lucas Estecho <span style="color:#aaa;font-weight:400;">#30</span></div>
-            <div style="font-size:12px;color:#999;margin-top:2px;">Venta ganada pero sin ninguna actividad registrada</div>
-          </div>
-          <span style="font-size:12px;color:#888;">Waldemar</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 5: ACCIONES VENCIDAS -->
-  <div class="section">
-    <div class="section-title">
-      <span class="badge rojo">Urgente</span>
-      Acciones Vencidas
-    </div>
-    <div class="card" style="overflow:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
-        <thead>
-          <tr style="background:#fdecea;border-bottom:2px solid #f5c6c2;">
-            <th style="text-align:left;padding:12px 20px;font-weight:700;color:#c0392b;">Cliente</th>
-            <th style="text-align:left;padding:12px 16px;font-weight:700;color:#c0392b;">Responsable</th>
-            <th style="text-align:left;padding:12px 16px;font-weight:700;color:#c0392b;">Fecha vencida</th>
-            <th style="text-align:left;padding:12px 16px;font-weight:700;color:#c0392b;">Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:11px 20px;font-weight:600;">Juan Iturrioz <span style="color:#aaa;font-weight:400;">#13</span></td>
-            <td style="padding:11px 16px;">Colo</td>
-            <td style="padding:11px 16px;color:#e74c3c;font-weight:600;">09/04/2026</td>
-            <td style="padding:11px 16px;"><span class="badge rojo">Vencida hace 59 días</span></td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:11px 20px;font-weight:600;">Maximiliano Bordas <span style="color:#aaa;font-weight:400;">#15</span></td>
-            <td style="padding:11px 16px;">Colo</td>
-            <td style="padding:11px 16px;color:#e74c3c;font-weight:600;">15/04/2026</td>
-            <td style="padding:11px 16px;"><span class="badge rojo">Vencida hace 53 días</span></td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:11px 20px;font-weight:600;">Nicolas Garcia <span style="color:#aaa;font-weight:400;">#18</span></td>
-            <td style="padding:11px 16px;">Tomi</td>
-            <td style="padding:11px 16px;color:#e74c3c;font-weight:600;">09/04/2026</td>
-            <td style="padding:11px 16px;"><span class="badge rojo">Vencida hace 59 días</span></td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;background:#fafbfc;">
-            <td style="padding:11px 20px;font-weight:600;">Juan Duran <span style="color:#aaa;font-weight:400;">#25</span></td>
-            <td style="padding:11px 16px;">Moncho</td>
-            <td style="padding:11px 16px;color:#e74c3c;font-weight:600;">~01/06/2026</td>
-            <td style="padding:11px 16px;"><span class="badge rojo">Vencida hace ~6 días</span></td>
-          </tr>
-          <tr style="border-bottom:1px solid #f0f0f0;">
-            <td style="padding:11px 20px;font-weight:600;">Ruben Mirada <span style="color:#aaa;font-weight:400;">#28</span></td>
-            <td style="padding:11px 16px;">Ledesma</td>
-            <td style="padding:11px 16px;color:#e74c3c;font-weight:600;">15/04/2026</td>
-            <td style="padding:11px 16px;"><span class="badge rojo">Vencida hace 53 días</span></td>
-          </tr>
-          <tr>
-            <td style="padding:11px 20px;font-weight:600;">Kiko Nazar <span style="color:#aaa;font-weight:400;">#29</span></td>
-            <td style="padding:11px 16px;">Waldemar</td>
-            <td style="padding:11px 16px;color:#e74c3c;font-weight:600;">15/04/2026</td>
-            <td style="padding:11px 16px;"><span class="badge rojo">Vencida hace 53 días</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:12px;color:#aaa;margin-top:10px;padding-left:4px;">* Tomas Gowland (#31): última actividad 28/05/2026, sin próxima fecha definida — requiere programar siguiente paso.</p>
-  </div>
-
-</div>
-
-<footer>CRM MicroVidas · Auditoría de fórmulas · Junio 2026</footer>
+<footer>CRM MicroVidas · Panel de gestión · Junio 2026</footer>
 
 <script>
-  function toggle(id) {
-    const card = document.getElementById(id);
-    card.classList.toggle('open');
+  // ── TABS ──
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
   }
 
-  function accept(key, btn) {
-    const pill = document.getElementById('pill-' + key);
-    pill.textContent = 'Aceptado';
-    pill.className = 'status-pill aceptado';
-    btn.textContent = '✓ Aceptado';
-    btn.className = 'btn btn-accepted';
-    btn.disabled = true;
-    btn.nextElementSibling.disabled = true;
-    btn.nextElementSibling.className = 'btn btn-reject';
+  // ── TIPOS DE CLIENTE ──
+  let tiposSeleccionados = [];
+  function toggleTipo(btn, tipo) {
+    if (btn.classList.contains('selected')) {
+      btn.classList.remove('selected');
+      tiposSeleccionados = tiposSeleccionados.filter(t => t !== tipo);
+    } else {
+      btn.classList.add('selected');
+      tiposSeleccionados.push(tipo);
+    }
   }
 
-  function reject(key, btn) {
-    const pill = document.getElementById('pill-' + key);
-    pill.textContent = 'Rechazado';
-    pill.className = 'status-pill rechazado';
-    btn.textContent = '✗ Rechazado';
-    btn.className = 'btn btn-rejected';
-    btn.disabled = true;
-    btn.previousElementSibling.disabled = true;
+  // ── CARGAR CLIENTE ──
+  function cargarCliente() {
+    const id = document.getElementById('clienteSelect').value;
+    if (!id) {
+      document.getElementById('formContainer').style.display = 'none';
+      document.getElementById('formPlaceholder').style.display = 'block';
+      return;
+    }
+    document.getElementById('formContainer').style.display = 'block';
+    document.getElementById('formPlaceholder').style.display = 'none';
+
+    const texto = document.getElementById('clienteSelect').selectedOptions[0].text;
+    document.getElementById('clienteInfo').innerHTML =
+      `<span>Cliente seleccionado: <strong>${texto}</strong></span>`;
+
+    // Cargar datos guardados si existen
+    const guardado = JSON.parse(localStorage.getItem('crm_' + id) || '{}');
+    document.getElementById('fechaAlta').value = guardado.fechaAlta || '';
+    document.getElementById('hectareas').value = guardado.hectareas || '';
+    document.getElementById('referido').value = guardado.referido || '';
+    document.getElementById('estadoCliente').value = guardado.estadoCliente || '';
+    document.getElementById('estadoVenta').value = guardado.estadoVenta || '';
+    document.getElementById('proximaAccion').value = guardado.proximaAccion || '';
+    document.getElementById('fechaAccion').value = guardado.fechaAccion || '';
+    document.getElementById('notas').value = guardado.notas || '';
+    document.getElementById('productos').value = guardado.productos || '';
+
+    // Tipos
+    tiposSeleccionados = guardado.tipos || [];
+    document.querySelectorAll('.tipo-chip').forEach(btn => {
+      const tipo = btn.textContent;
+      btn.classList.toggle('selected', tiposSeleccionados.includes(tipo));
+    });
+  }
+
+  // ── GUARDAR ──
+  function guardar() {
+    const id = document.getElementById('clienteSelect').value;
+    if (!id) return;
+    const data = {
+      fechaAlta: document.getElementById('fechaAlta').value,
+      hectareas: document.getElementById('hectareas').value,
+      referido: document.getElementById('referido').value,
+      tipos: tiposSeleccionados,
+      estadoCliente: document.getElementById('estadoCliente').value,
+      estadoVenta: document.getElementById('estadoVenta').value,
+      proximaAccion: document.getElementById('proximaAccion').value,
+      fechaAccion: document.getElementById('fechaAccion').value,
+      notas: document.getElementById('notas').value,
+      productos: document.getElementById('productos').value,
+    };
+    localStorage.setItem('crm_' + id, JSON.stringify(data));
+    const badge = document.getElementById('savedBadge');
+    badge.classList.add('show');
+    setTimeout(() => badge.classList.remove('show'), 2000);
+  }
+
+  // ── LIMPIAR ──
+  function limpiar() {
+    ['fechaAlta','hectareas','referido','estadoCliente','estadoVenta','proximaAccion','fechaAccion','notas','productos']
+      .forEach(id => document.getElementById(id).value = '');
+    tiposSeleccionados = [];
+    document.querySelectorAll('.tipo-chip').forEach(b => b.classList.remove('selected'));
+  }
+
+  // ── EXPORTAR CSV ──
+  function exportarCSV() {
+    const clientes = [
+      [1,'Beto','Piedritas','Moncho'],
+      [2,'José Milberg','Piedritas','Moncho'],
+      [3,'Federico Campolongo','America','Moncho'],
+      [4,'Dario Aguirre','America','Moncho'],
+      [5,'Diego Rotilli','América','Moncho'],
+      [6,'Bernardo Batle','America','Moncho'],
+      [7,'Paolo de Luca','Chacabuco-Rojas','Moncho'],
+      [8,'Fede enc. Paolo','Chacabuco-Rojas','Moncho'],
+      [9,'Lorenzo Leanes','Sn. A. de Areco','Tomi'],
+      [10,'Marcos Giudici','Sn. A. de Areco','Colo'],
+      [11,'Fernando Fernandez','Sn. A. de Areco','Colo'],
+      [12,'(sin nombre)','San Antonio de Areco',''],
+      [13,'Juan Iturrioz','Ayacucho','Colo'],
+      [14,'Nicolas Echevarria','Gualeguay','Walde'],
+      [15,'Maximiliano Bordas','Mendoza','Colo'],
+      [16,'Edgardo Fernandez','Ameghino','Colo'],
+      [17,'Joaquín Gonzales Inocenti','Arias-Córdoba','Tomi'],
+      [18,'Nicolas Garcia','Rio Negro','Tomi'],
+      [19,'Andres Leglise','Gral Belgrano','Bruno'],
+      [20,'Javier Linari','Brandsen','Bruno'],
+      [21,'Katya Prager','Gral Belgrano','Tomi'],
+      [22,'Ciro campo ines','Cañuelas','Tomi'],
+      [23,'Hernan Finnegan','Gral Belgrano','Tomi'],
+      [24,'Jorge Olmedo','Guerrero','Tomi'],
+      [25,'Juan Duran','','Moncho'],
+      [26,'Alejandro Sordian','9 de Julio','Moncho'],
+      [27,'Alfredo','Carmen de Areco','Moncho'],
+      [28,'Ruben Mirada','Cap Sarmiento','Ledesma'],
+      [29,'Kiko Nazar','Gob Mansilla','Waldemar'],
+      [30,'Lucas Estecho','Gob Mansilla','Waldemar'],
+      [31,'Tomas Gowland','Fernandez','Tomi'],
+    ];
+
+    const headers = ['ID','Nombre','Zona','Responsable','Fecha Alta','Hectáreas','Referido','Tipo de Cliente','Estado Cliente','Estado Venta','Próxima Acción','Fecha Acción','Notas','Productos'];
+    const rows = clientes.map(([id, nombre, zona, resp]) => {
+      const d = JSON.parse(localStorage.getItem('crm_' + id) || '{}');
+      return [
+        id, nombre, zona, resp,
+        d.fechaAlta || '', d.hectareas || '', d.referido || '',
+        (d.tipos || []).join(' / '),
+        d.estadoCliente || '', d.estadoVenta || '',
+        d.proximaAccion || '', d.fechaAccion || '',
+        (d.notas || '').replace(/\n/g, ' '), d.productos || ''
+      ].map(v => `"${v}"`).join(',');
+    });
+
+    const csv = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'crm_microvidas_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
   }
 </script>
 
