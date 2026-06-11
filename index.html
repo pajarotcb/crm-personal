@@ -388,6 +388,41 @@
 <footer>CRM MicroVidas · Panel de gestión · Junio 2026</footer>
 
 <script>
+  // ── DATOS DEL SHEET ──
+  const datosSheet = {
+    1:  { proximaAccion: '', notas: '' },
+    2:  { proximaAccion: 'Esperar resultados de rendimiento', notas: 'Ensayo sembrado 22/12. Se sembró maíz con semillas tratadas con VidaMaíz el 22/12/2025. Se visitó el lote el 21/01/2026.' },
+    3:  { proximaAccion: '', notas: 'Federico es el Ingeniero encargado de Agricultura. Recién ingresado (agosto 2025). Reclama que no hay post-venta: van, dejan productos y no hacen seguimiento. Eso debe diferenciarnos.' },
+    4:  { proximaAccion: '', notas: 'Encargado de Rincon de Corrientes. Se habla todo con Fede Campolongo.' },
+    5:  { proximaAccion: 'Recibir el informe de Diego Rotilli', notas: 'Ensayo con AgroInnova para tratamiento de semillas de soja contra curasemilla (Testigo). Sembrado a fines de diciembre.' },
+    6:  { proximaAccion: 'Esperar el informe final', notas: 'Es el encargado del campo experimental AgroInnova.' },
+    7:  { proximaAccion: 'Esperar informe final', notas: 'Ensayista de la zona de Junin, Chacabuco y Rojas.' },
+    8:  { proximaAccion: 'Esperar informe final', notas: 'Retrasado con siembra. Encargado de los campos experimentales de Paolo de Luca.' },
+    9:  { proximaAccion: 'Definir ensayo en trigo', notas: 'Encargado del campo de Marchi. Se intentó hacer aplicación foliar en soja pero no se pudo por falta de lluvia. Se le ofreció ensayo en fina.' },
+    10: { proximaAccion: 'Recontactar', notas: '' },
+    11: { proximaAccion: '', notas: 'RECLAMO CONTRATO.' },
+    12: { proximaAccion: '', notas: '' },
+    13: { proximaAccion: 'Hablar', notas: '' },
+    14: { proximaAccion: '', notas: '' },
+    15: { proximaAccion: 'Hablar por tema inocular o foliares de Alfalfa', notas: '' },
+    16: { proximaAccion: '', notas: 'Presentación de paleta y charla sobre la zona. Propone dar charla abierta con productores/distribuidores. Consejo: mucho ensayo. Dejó 3 contactos: Marcelo Pason (3388670951), Fernando de La Pelayo (2302525245), Germán Morra Manicel (2302573644).' },
+    17: { proximaAccion: 'Enviar pack trigo', notas: 'Campo mixto completamente orgánico. Va a sembrar alfalfa después de cosechar girasol. Contacto surgió por Tru-Test.' },
+    18: { proximaAccion: 'Averiguar si hay estudio de proteína del Maíz', notas: 'Hacen remolacha forrajera.' },
+    19: { proximaAccion: 'Realizar ensayo post pastoreo', notas: 'Santa Rosa de los Cerrillos (antigua estancia de Rosas). 5.000 has, 2 tambos y recría. Ensayos en ryegrass de Alejandro Palladino. Postpuesto por lluvias, se realiza post pastoreo.' },
+    20: { proximaAccion: 'Toma de muestras cuando salgan del lote. Enviar muestras a laboratorio.', notas: 'Ensayo en Ryegrass con aminoácidos y micronutrientes. Parte del ensayo de Alejandro Palladino. Lote definido.' },
+    21: { proximaAccion: 'Toma de muestras cuando salgan del lote. Enviar muestras a laboratorio.', notas: 'Ensayo en ryegrass con aminoácidos y micronutrientes. Lote definido.' },
+    22: { proximaAccion: 'Realizar el ensayo post pastoreo', notas: 'Ensayo en ryegrass. No se pudo realizar por condiciones climáticas. Se realiza post pastoreo.' },
+    23: { proximaAccion: 'Toma de muestras cuando salgan del lote. Enviar muestras a laboratorio.', notas: 'Ensayo en ryegrass con aminoácidos y micronutrientes. Lote definido.' },
+    24: { proximaAccion: 'Toma de muestras cuando salgan del lote. Enviar muestras a laboratorio.', notas: 'Ensayo en ryegrass con aminoácidos y micronutrientes. Lote definido.' },
+    25: { proximaAccion: 'Volver a contactarlo en Junio para los ensayos', notas: 'Ensayos en Soja y Maíz.' },
+    26: { proximaAccion: 'ENSAYO TRIGO', notas: 'Ensayo trigo. A partir de ahí, capacitar a los vendedores.' },
+    27: { proximaAccion: 'Espera de presupuesto para seguir adelante', notas: 'Ensayista en Carmen de Areco. Si los productos dan bien, serían distribuidores del producto.' },
+    28: { proximaAccion: 'COORDINAR', notas: '' },
+    29: { proximaAccion: 'OFRECER TRIGO', notas: '' },
+    30: { proximaAccion: '', notas: 'Ingeniero de Kiko.' },
+    31: { proximaAccion: '', notas: 'Interesado en hacer ensayo con N20.' },
+  };
+
   // ── TABS ──
   function showTab(name, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -423,16 +458,17 @@
     document.getElementById('clienteInfo').innerHTML =
       `<span>Cliente seleccionado: <strong>${texto}</strong></span>`;
 
-    // Cargar datos guardados si existen
+    // Cargar datos guardados, con fallback a datos del Sheet
     const guardado = JSON.parse(localStorage.getItem('crm_' + id) || '{}');
+    const sheet = datosSheet[id] || {};
     document.getElementById('fechaAlta').value = guardado.fechaAlta || '';
     document.getElementById('hectareas').value = guardado.hectareas || '';
     document.getElementById('referido').value = guardado.referido || '';
     document.getElementById('estadoCliente').value = guardado.estadoCliente || '';
     document.getElementById('estadoVenta').value = guardado.estadoVenta || '';
-    document.getElementById('proximaAccion').value = guardado.proximaAccion || '';
+    document.getElementById('proximaAccion').value = guardado.proximaAccion || sheet.proximaAccion || '';
     document.getElementById('fechaAccion').value = guardado.fechaAccion || '';
-    document.getElementById('notas').value = guardado.notas || '';
+    document.getElementById('notas').value = guardado.notas || sheet.notas || '';
     document.getElementById('productos').value = guardado.productos || '';
 
     // Tipos
