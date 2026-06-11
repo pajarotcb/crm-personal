@@ -496,14 +496,19 @@
   }
 
   // ── GUARDAR ──
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwYeeTFJBuJ93AT4ET_R01c26ejK13ELkoWwCyVy4G4UsGQFYvjYcGazstbSVavHDEBgw/exec';
+
   function guardar() {
     const id = document.getElementById('clienteSelect').value;
     if (!id) return;
+    const nombre = document.getElementById('clienteSelect').selectedOptions[0].text.split('·')[1]?.trim().split('(')[0].trim() || '';
     const data = {
+      id,
+      nombre,
       fechaAlta: document.getElementById('fechaAlta').value,
       hectareas: document.getElementById('hectareas').value,
       referido: document.getElementById('referido').value,
-      tipos: tiposSeleccionados,
+      tipos: tiposSeleccionados.join(' / '),
       estadoCliente: document.getElementById('estadoCliente').value,
       estadoVenta: document.getElementById('estadoVenta').value,
       proximaAccion: document.getElementById('proximaAccion').value,
@@ -511,11 +516,26 @@
       notas: document.getElementById('notas').value,
       productos: document.getElementById('productos').value,
     };
-    localStorage.setItem('crm_' + id, JSON.stringify(data));
+    localStorage.setItem('crm_' + id, JSON.stringify({...data, tipos: tiposSeleccionados}));
     hayambios = false;
+
     const badge = document.getElementById('savedBadge');
+    badge.textContent = '⏳ Guardando...';
     badge.classList.add('show');
-    setTimeout(() => badge.classList.remove('show'), 2000);
+
+    fetch(SHEET_URL, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+    .then(r => r.json())
+    .then(res => {
+      badge.textContent = res.ok ? '✓ Guardado en Sheet' : '⚠ Error en Sheet';
+      setTimeout(() => badge.classList.remove('show'), 3000);
+    })
+    .catch(() => {
+      badge.textContent = '✓ Guardado local (sin conexión)';
+      setTimeout(() => badge.classList.remove('show'), 3000);
+    });
   }
 
   // ── LIMPIAR ──
