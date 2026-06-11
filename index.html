@@ -286,6 +286,21 @@
 
       <div class="client-info" id="clienteInfo"></div>
 
+      <!-- DATOS PERSONALES -->
+      <div class="form-card">
+        <h3>Datos personales</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" id="nombrePersona" placeholder="Nombre completo" />
+          </div>
+          <div class="form-group">
+            <label>Nombre del campo / empresa</label>
+            <input type="text" id="nombreCampo" placeholder="ej: La Nueva Trinidad" />
+          </div>
+        </div>
+      </div>
+
       <!-- IDENTIFICACIÓN -->
       <div class="form-card">
         <h3>Identificación</h3>
@@ -365,6 +380,37 @@
         <div class="form-group" style="margin-top:12px;">
           <label>Productos de interés</label>
           <input type="text" id="productos" placeholder="ej: VidaMaíz, foliares soja" />
+        </div>
+      </div>
+
+      <!-- CONTACTO -->
+      <div class="form-card">
+        <h3>Contacto</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Teléfono 1</label>
+            <input type="text" id="tel1" placeholder="ej: 11 5308-3306" />
+          </div>
+          <div class="form-group">
+            <label>Teléfono 2</label>
+            <input type="text" id="tel2" placeholder="ej: 11 5308-3307" />
+          </div>
+          <div class="form-group">
+            <label>Teléfono 3</label>
+            <input type="text" id="tel3" placeholder="ej: 11 5308-3308" />
+          </div>
+          <div class="form-group">
+            <label>Email 1</label>
+            <input type="email" id="email1" placeholder="ej: contacto@empresa.com" />
+          </div>
+          <div class="form-group">
+            <label>Email 2</label>
+            <input type="email" id="email2" placeholder="ej: otro@empresa.com" />
+          </div>
+          <div class="form-group">
+            <label>Dirección</label>
+            <input type="text" id="direccion" placeholder="ej: Ruta 5 km 234, Piedritas" />
+          </div>
         </div>
       </div>
 
@@ -485,15 +531,23 @@
     // Cargar datos guardados, con fallback a datos del Sheet
     const guardado = JSON.parse(localStorage.getItem('crm_' + id) || '{}');
     const sheet = datosSheet[id] || {};
-    document.getElementById('fechaAlta').value = guardado.fechaAlta || '';
-    document.getElementById('hectareas').value = guardado.hectareas || '';
-    document.getElementById('referido').value = guardado.referido || '';
+    document.getElementById('nombrePersona').value = guardado.nombrePersona || '';
+    document.getElementById('nombreCampo').value   = guardado.nombreCampo || '';
+    document.getElementById('fechaAlta').value     = guardado.fechaAlta || '';
+    document.getElementById('hectareas').value     = guardado.hectareas || '';
+    document.getElementById('referido').value      = guardado.referido || '';
     document.getElementById('estadoCliente').value = guardado.estadoCliente || '';
-    document.getElementById('estadoVenta').value = guardado.estadoVenta || '';
+    document.getElementById('estadoVenta').value   = guardado.estadoVenta || '';
     document.getElementById('proximaAccion').value = guardado.proximaAccion || sheet.proximaAccion || '';
-    document.getElementById('fechaAccion').value = guardado.fechaAccion || '';
-    document.getElementById('notas').value = guardado.notas || sheet.notas || '';
-    document.getElementById('productos').value = guardado.productos || '';
+    document.getElementById('fechaAccion').value   = guardado.fechaAccion || '';
+    document.getElementById('notas').value         = guardado.notas || sheet.notas || '';
+    document.getElementById('productos').value     = guardado.productos || '';
+    document.getElementById('tel1').value          = guardado.tel1 || '';
+    document.getElementById('tel2').value          = guardado.tel2 || '';
+    document.getElementById('tel3').value          = guardado.tel3 || '';
+    document.getElementById('email1').value        = guardado.email1 || '';
+    document.getElementById('email2').value        = guardado.email2 || '';
+    document.getElementById('direccion').value     = guardado.direccion || '';
 
     // Tipos
     tiposSeleccionados = guardado.tipos || [];
@@ -513,16 +567,24 @@
     const data = {
       id,
       nombre,
-      fechaAlta: document.getElementById('fechaAlta').value,
-      hectareas: document.getElementById('hectareas').value,
-      referido: document.getElementById('referido').value,
-      tipos: tiposSeleccionados.join(' / '),
+      nombrePersona: document.getElementById('nombrePersona').value,
+      nombreCampo:   document.getElementById('nombreCampo').value,
+      fechaAlta:     document.getElementById('fechaAlta').value,
+      hectareas:     document.getElementById('hectareas').value,
+      referido:      document.getElementById('referido').value,
+      tipos:         tiposSeleccionados.join(' / '),
       estadoCliente: document.getElementById('estadoCliente').value,
-      estadoVenta: document.getElementById('estadoVenta').value,
+      estadoVenta:   document.getElementById('estadoVenta').value,
       proximaAccion: document.getElementById('proximaAccion').value,
-      fechaAccion: document.getElementById('fechaAccion').value,
-      notas: document.getElementById('notas').value,
-      productos: document.getElementById('productos').value,
+      fechaAccion:   document.getElementById('fechaAccion').value,
+      notas:         document.getElementById('notas').value,
+      productos:     document.getElementById('productos').value,
+      tel1:          document.getElementById('tel1').value,
+      tel2:          document.getElementById('tel2').value,
+      tel3:          document.getElementById('tel3').value,
+      email1:        document.getElementById('email1').value,
+      email2:        document.getElementById('email2').value,
+      direccion:     document.getElementById('direccion').value,
     };
     localStorage.setItem('crm_' + id, JSON.stringify({...data, tipos: tiposSeleccionados}));
     hayambios = false;
@@ -548,7 +610,7 @@
 
   // ── LIMPIAR ──
   function limpiar() {
-    ['fechaAlta','hectareas','referido','estadoCliente','estadoVenta','proximaAccion','fechaAccion','notas','productos']
+    ['nombrePersona','nombreCampo','fechaAlta','hectareas','referido','estadoCliente','estadoVenta','proximaAccion','fechaAccion','notas','productos','tel1','tel2','tel3','email1','email2','direccion']
       .forEach(id => document.getElementById(id).value = '');
     tiposSeleccionados = [];
     document.querySelectorAll('.tipo-chip').forEach(b => b.classList.remove('selected'));
