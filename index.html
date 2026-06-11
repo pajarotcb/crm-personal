@@ -379,6 +379,14 @@
     <div id="formPlaceholder" style="background:white;border-radius:12px;border:1px solid #e8eaf0;padding:48px;text-align:center;color:#aaa;">
       <div style="font-size:32px;margin-bottom:12px;">👆</div>
       <p style="font-size:14px;">Seleccioná un cliente para completar sus datos</p>
+      <div style="margin-top:24px;padding-top:24px;border-top:1px solid #f0f0f0;">
+        <p style="font-size:13px;color:#888;margin-bottom:12px;">¿Tenés datos exportados de antes? Importalos acá:</p>
+        <label style="display:inline-block;padding:9px 20px;background:#1a1a2e;color:white;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">
+          📂 Importar CSV
+          <input type="file" accept=".csv" onchange="importarCSV(event)" style="display:none;" />
+        </label>
+        <span id="importBadge" style="font-size:12px;color:#27ae60;font-weight:600;margin-left:12px;display:none;"></span>
+      </div>
     </div>
 
   </div>
@@ -544,6 +552,43 @@
       .forEach(id => document.getElementById(id).value = '');
     tiposSeleccionados = [];
     document.querySelectorAll('.tipo-chip').forEach(b => b.classList.remove('selected'));
+  }
+
+  // ── IMPORTAR CSV ──
+  function importarCSV(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const lines = e.target.result.split('\n').filter(l => l.trim());
+      const headers = lines[0].split(',').map(h => h.replace(/"/g,'').trim());
+      let count = 0;
+      for (let i = 1; i < lines.length; i++) {
+        const vals = lines[i].match(/(".*?"|[^,]+)/g) || [];
+        const row = vals.map(v => v.replace(/^"|"$/g,'').trim());
+        const id = row[0];
+        if (!id || isNaN(id)) continue;
+        const data = {
+          fechaAlta:      row[headers.indexOf('Fecha Alta')] || '',
+          hectareas:      row[headers.indexOf('Hectáreas')] || '',
+          referido:       row[headers.indexOf('Referido')] || '',
+          tipos:          (row[headers.indexOf('Tipo de Cliente')] || '').split(' / ').filter(Boolean),
+          estadoCliente:  row[headers.indexOf('Estado Cliente')] || '',
+          estadoVenta:    row[headers.indexOf('Estado Venta')] || '',
+          proximaAccion:  row[headers.indexOf('Próxima Acción')] || '',
+          fechaAccion:    row[headers.indexOf('Fecha Acción')] || '',
+          notas:          row[headers.indexOf('Notas')] || '',
+          productos:      row[headers.indexOf('Productos')] || '',
+        };
+        localStorage.setItem('crm_' + id, JSON.stringify(data));
+        count++;
+      }
+      const badge = document.getElementById('importBadge');
+      badge.textContent = `✓ ${count} clientes importados`;
+      badge.style.display = 'inline';
+      setTimeout(() => badge.style.display = 'none', 4000);
+    };
+    reader.readAsText(file, 'UTF-8');
   }
 
   // ── EXPORTAR CSV ──
