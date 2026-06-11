@@ -443,16 +443,32 @@
     }
   }
 
+  // ── DETECTAR CAMBIOS SIN GUARDAR ──
+  let clienteActual = null;
+  let haycambios = false;
+  document.addEventListener('input', () => { if (clienteActual) hayambios = true; });
+
   // ── CARGAR CLIENTE ──
   function cargarCliente() {
     const id = document.getElementById('clienteSelect').value;
+
+    // Si hay cambios sin guardar, preguntar antes de cambiar
+    if (clienteActual && hayambios && clienteActual !== id) {
+      const ok = confirm('¿Guardar los cambios del cliente actual antes de cambiar?');
+      if (ok) guardar();
+    }
+
     if (!id) {
       document.getElementById('formContainer').style.display = 'none';
       document.getElementById('formPlaceholder').style.display = 'block';
+      clienteActual = null;
+      hayambios = false;
       return;
     }
     document.getElementById('formContainer').style.display = 'block';
     document.getElementById('formPlaceholder').style.display = 'none';
+    clienteActual = id;
+    hayambios = false;
 
     const texto = document.getElementById('clienteSelect').selectedOptions[0].text;
     document.getElementById('clienteInfo').innerHTML =
@@ -496,6 +512,7 @@
       productos: document.getElementById('productos').value,
     };
     localStorage.setItem('crm_' + id, JSON.stringify(data));
+    hayambios = false;
     const badge = document.getElementById('savedBadge');
     badge.classList.add('show');
     setTimeout(() => badge.classList.remove('show'), 2000);
