@@ -75,3 +75,6 @@ coverage/
 .eslintcache
 .stylelintcache
 .parcel-cache/
+
+# Vercel
+.vercel
