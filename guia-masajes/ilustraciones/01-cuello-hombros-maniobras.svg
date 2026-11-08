@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 920" font-family="Helvetica, Arial, sans-serif">
+  <title>Cuello y hombros — maniobras</title>
+  <style>
+    .skin{fill:#f0c9a8;stroke:#a8744a;stroke-width:2}
+    .body{fill:#e3e6ea;stroke:#9aa1ab;stroke-width:2}
+    .ball{fill:#c6e04a;stroke:#7a8c1a;stroke-width:2}
+    .arr{stroke:#1a237e;stroke-width:4;fill:none;marker-end:url(#a)}
+    .card{fill:#f5f6f8;stroke:#d6dae0}
+    .t{font-size:20px;fill:#111827;font-weight:700}
+    .s{font-size:15px;fill:#4b5563}
+    .h{font-size:26px;font-weight:700;fill:#111827}
+    .badge{fill:#1a237e}
+    .bn{font-size:20px;fill:#fff;font-weight:700;text-anchor:middle}
+  </style>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1a237e"/></marker></defs>
+  <rect width="800" height="920" fill="#fff"/>
+  <text x="400" y="42" text-anchor="middle" class="h">Maniobras · cuello y hombros</text>
+  <text x="400" y="68" text-anchor="middle" class="s">Presión 5–6 de 10 · respirar lento · el dolor debe bajar, no subir</text>
+
+  <!-- 1 pellizco trapecio -->
+  <rect class="card" x="30" y="90" width="365" height="390" rx="12"/>
+  <circle class="badge" cx="62" cy="122" r="16"/><text class="bn" x="62" y="129">1</text>
+  <text class="t" x="90" y="130">Pellizco del trapecio</text>
+  <g transform="translate(25,43) scale(.9)">
+  <path class="body" d="M70,420 L90,330 C110,285 150,265 190,262 L200,200 L255,200 L265,262 C305,265 345,285 365,330 L385,420 Z"/>
+  <ellipse class="body" cx="228" cy="170" rx="38" ry="46"/>
+  <path d="M300,298 C290,280 275,278 262,290" stroke="#e53935" stroke-width="10" stroke-linecap="round" fill="none" opacity=".55"/>
+  <path class="skin" d="M335,230 C320,248 305,262 292,282 L305,292 C318,276 333,262 345,248 Z"/>
+  <path class="skin" d="M292,282 C282,278 272,284 276,294 C280,302 292,300 296,294 Z"/>
+  </g>
+  <text class="s" x="48" y="448">Mano contraria toma el músculo (no la piel)</text>
+  <text class="s" x="48" y="468">entre pulgar y dedos. 30–60 s por punto.</text>
+
+  <!-- 2 pelota en pared -->
+  <rect class="card" x="405" y="90" width="365" height="390" rx="12"/>
+  <circle class="badge" cx="437" cy="122" r="16"/><text class="bn" x="437" y="129">2</text>
+  <text class="t" x="465" y="130">Pelota contra la pared</text>
+  <rect x="440" y="150" width="14" height="260" fill="#cbd1d9"/>
+  <ellipse class="body" cx="590" cy="190" rx="34" ry="42"/>
+  <path class="body" d="M572,228 L570,262 C545,270 530,285 526,310 L520,400 L660,400 L654,310 C650,285 635,270 610,262 L608,228 Z"/>
+  <circle class="ball" cx="470" cy="300" r="22"/>
+  <path d="M452,282 C458,290 482,290 488,282 M450,300 C462,306 478,306 490,300" stroke="#7a8c1a" stroke-width="2" fill="none"/>
+  <path class="arr" d="M600,290 L520,300"/>
+  <text class="s" x="423" y="440">De pie, peso del cuerpo sobre la pelota,</text>
+  <text class="s" x="423" y="460">sobre trapecio o paleta. 30–60 s por punto.</text>
+
+  <!-- 3 peso de la cabeza -->
+  <rect class="card" x="30" y="500" width="365" height="390" rx="12"/>
+  <circle class="badge" cx="62" cy="532" r="16"/><text class="bn" x="62" y="539">3</text>
+  <text class="t" x="90" y="540">Peso de la cabeza</text>
+  <rect x="60" y="765" width="305" height="14" fill="#cbd1d9"/>
+  <path class="body" d="M72,735 C72,715 100,705 140,708 L335,712 L350,740 L72,745 Z"/>
+  <ellipse class="body" cx="100" cy="710" rx="26" ry="30" transform="rotate(-8 100 710)"/>
+  <circle class="ball" cx="82" cy="738" r="14"/>
+  <circle class="ball" cx="116" cy="738" r="14"/>
+  <rect x="62" y="755" width="68" height="6" fill="#cbd1d9"/>
+  <text class="s" x="48" y="830">Acostado boca arriba, dos pelotas bajo el cráneo,</text>
+  <text class="s" x="48" y="850">una a cada lado de la columna, nunca sobre ella.</text>
+  <text class="s" x="48" y="870">Sin presión extra: alcanza el peso. 60–90 s.</text>
+
+  <!-- 4 a otro: pulgar en el ángulo -->
+  <rect class="card" x="405" y="500" width="365" height="390" rx="12"/>
+  <circle class="badge" cx="437" cy="532" r="16"/><text class="bn" x="437" y="539">4</text>
+  <text class="t" x="465" y="540">A otro · pulgar en la paleta</text>
+  <g transform="translate(41,94) scale(.9)">
+  <path class="body" d="M450,780 L470,690 C490,655 530,640 570,636 L580,590 L635,590 L645,636 C685,640 725,655 745,690 L765,780 Z"/>
+  <ellipse class="body" cx="608" cy="560" rx="34" ry="42"/>
+  <path d="M520,690 L575,705 L550,780 L525,735 Z" fill="none" stroke="#9aa1ab" stroke-width="2" stroke-dasharray="5 4"/>
+  <path class="skin" d="M470,640 C490,650 520,670 532,690 L548,682 C534,660 510,640 484,628 Z"/>
+  <path class="skin" d="M532,690 C528,700 540,706 548,698 L552,688 Z"/>
+  <circle cx="528" cy="694" r="9" fill="none" stroke="#1a237e" stroke-width="3"/>
+  <path class="arr" d="M520,730 L538,704"/>
+  </g>
+  <text class="s" x="423" y="830">Pulgar en el ángulo superior de la paleta,</text>
+  <text class="s" x="423" y="850">presión hacia el cuello. Preguntar: ¿del 1 al 10?</text>
+  <text class="s" x="423" y="870">30–90 s por punto, 1–2 puntos.</text>
+</svg>

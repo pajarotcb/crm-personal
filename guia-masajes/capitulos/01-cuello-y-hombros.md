@@ -29,7 +29,7 @@
 ## 1. Anatomía de la zona
 
 ![Vista posterior de cuello y hombros](../ilustraciones/01-cuello-hombros-anatomia.svg)
-*(ilustración pendiente)*
+*(lámina: `ilustraciones/01-cuello-hombros-anatomia.svg`)*
 
 | Músculo | Dónde está | Qué hace | Cuándo se sobrecarga |
 |---|---|---|---|
@@ -48,7 +48,7 @@
 ## 2. Mapa de dolor referido
 
 ![Mapa de dolor referido](../ilustraciones/01-cuello-hombros-referido.svg)
-*(ilustración pendiente: rojo = donde se siente; círculo = punto gatillo)*
+*(lámina: `ilustraciones/01-cuello-hombros-referido.svg` · zona roja = donde se siente; círculo = punto gatillo)*
 
 Un **punto gatillo** es un nudo doloroso dentro de una banda tensa de músculo. Al presionarlo puede doler **en otro lugar**: eso es el dolor referido.
 
@@ -101,6 +101,9 @@ Un **punto gatillo** es un nudo doloroso dentro de una banda tensa de músculo. 
 ---
 
 ## 5. Técnica por músculo
+
+![Maniobras](../ilustraciones/01-cuello-hombros-maniobras.svg)
+*(lámina: `ilustraciones/01-cuello-hombros-maniobras.svg`)*
 
 ### 5.1 Trapecio superior
 
@@ -219,7 +222,7 @@ Consultar a un profesional si:
 
 ## Pendiente
 
-- [ ] Ilustraciones SVG: anatomía, mapa de dolor referido, maniobras
+- [x] Ilustraciones SVG v1: anatomía, mapa de dolor referido, maniobras (esquemáticas; mejorar trazo y proporciones en la revisión)
 - [ ] Contrastar mapas de referido con el manual de Travell y Simons
 - [ ] Revisión por un profesional de salud
 - [ ] Prueba real de la secuencia express con 2–3 personas
