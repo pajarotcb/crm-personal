@@ -28,8 +28,11 @@
 
 ## 1. Anatomía de la zona
 
-![Vista posterior de cuello y hombros](../ilustraciones/01-cuello-hombros-anatomia.svg)
-*(lámina: `ilustraciones/01-cuello-hombros-anatomia.svg`)*
+![Lámina 1 · Espalda alta, cuello y hombro](../ilustraciones/01-cuello-hombros-lamina1-espalda-alta.svg)
+*Lámina 1. Base: Gray (1918), Fig. 409, dominio público. Marcas propias.*
+
+![Lámina 2 · Cuello, vista lateral](../ilustraciones/01-cuello-hombros-lamina2-cuello-lateral.svg)
+*Lámina 2. Base: Gray (1918), Fig. 385, dominio público. Zonas de no compresión y marcas propias.*
 
 | Músculo | Dónde está | Qué hace | Cuándo se sobrecarga |
 |---|---|---|---|
@@ -47,8 +50,11 @@
 
 ## 2. Mapa de dolor referido
 
-![Mapa de dolor referido](../ilustraciones/01-cuello-hombros-referido.svg)
-*(lámina: `ilustraciones/01-cuello-hombros-referido.svg` · zona roja = donde se siente; círculo = punto gatillo)*
+![Lámina 3 · Infraespinoso y suboccipitales](../ilustraciones/01-cuello-hombros-lamina3-infraespinoso-suboccipitales.svg)
+*Lámina 3. Base: Gray (1918), Figs. 412 y 389, dominio público. Marcas propias.*
+
+![Mapa de dolor referido (provisorio)](../ilustraciones/01-cuello-hombros-referido.svg)
+*Mapa de dolor referido: **provisorio**, pendiente de rehacer sobre una lámina de cráneo y contrastar con Travell & Simons.*
 
 Un **punto gatillo** es un nudo doloroso dentro de una banda tensa de músculo. Al presionarlo puede doler **en otro lugar**: eso es el dolor referido.
 
@@ -222,7 +228,10 @@ Consultar a un profesional si:
 
 ## Pendiente
 
-- [x] Ilustraciones SVG v1: anatomía, mapa de dolor referido, maniobras (esquemáticas; mejorar trazo y proporciones en la revisión)
+- [x] Láminas anatómicas 1–3 sobre Gray (1918), dominio público, con cita
+- [ ] Mapa de dolor referido: rehacer sobre lámina de cráneo (hoy provisorio)
+- [ ] Maniobras (manos y cuerpo): rehacer con estilo lápiz y color (hoy provisorio)
+- [ ] Verificar ubicación de los puntos gatillo contra Travell & Simons y con un profesional
 - [ ] Contrastar mapas de referido con el manual de Travell y Simons
 - [ ] Revisión por un profesional de salud
 - [ ] Prueba real de la secuencia express con 2–3 personas

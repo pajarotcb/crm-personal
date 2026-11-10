@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1120 820" font-family="Georgia, 'Times New Roman', serif">
+  <title>Lámina 3 — Infraespinoso y suboccipitales</title>
+  <style>
+    .tp{fill:#fff;fill-opacity:.92;stroke:#1a237e;stroke-width:3}
+    .n{font:700 17px Helvetica,Arial,sans-serif;fill:#1a237e;text-anchor:middle}
+    .h1{font:700 26px Georgia,serif;fill:#111}
+    .h2{font:italic 16px Georgia,serif;fill:#444}
+    .t{font:700 17px Helvetica,Arial,sans-serif;fill:#111}
+    .s{font:15px Helvetica,Arial,sans-serif;fill:#333}
+    .c{font:13px Helvetica,Arial,sans-serif;fill:#555}
+  </style>
+  <rect width="1120" height="820" fill="#fffdf8"/>
+  <text x="40" y="46" class="h1">Lámina 3 · Infraespinoso y suboccipitales</text>
+  <text x="40" y="72" class="h2">Dos músculos pequeños que explican mucho dolor de paleta, nuca y cabeza</text>
+
+  <!-- panel izquierdo: Gray412 -->
+  <text x="40" y="112" class="t">A · Infraespinoso (vista posterior del hombro)</text>
+  <g transform="translate(40,128) scale(1.0)">
+    <image xlink:href="fuente-gray1918/Gray412.png" href="fuente-gray1918/Gray412.png" x="0" y="0" width="550" height="523"/>
+    <circle class="tp" cx="415" cy="150" r="15"/><text class="n" x="415" y="156">5</text>
+  </g>
+  <text x="40" y="676" class="s"><tspan font-weight="700" fill="#1a237e">5</tspan> Punto gatillo del infraespinoso, bajo la espina de la escápula.</text>
+  <text x="40" y="696" class="c">Dolor referido típico: cara anterior del hombro, a veces brazo. Si hay hormigueo, consultar.</text>
+
+  <!-- panel derecho: Gray389 recorte -->
+  <text x="640" y="112" class="t">B · Suboccipitales (base del cráneo)</text>
+  <svg x="640" y="128" width="440" height="430" viewBox="240 10 190 185" xmlns="http://www.w3.org/2000/svg">
+    <image xlink:href="fuente-gray1918/Gray389.png" href="fuente-gray1918/Gray389.png" x="0" y="0" width="625" height="1179"/>
+    <circle class="tp" cx="318" cy="112" r="9" stroke-width="2"/><text class="n" x="318" y="116" style="font-size:11px">2</text>
+  </svg>
+  <rect x="640" y="128" width="440" height="430" fill="none" stroke="#c9c4b8"/>
+  <text x="640" y="582" class="s"><tspan font-weight="700" fill="#1a237e">2</tspan> Suboccipitales: recto posterior mayor y menor,</text>
+  <text x="640" y="602" class="s">oblicuo superior e inferior. Se tratan con el peso de la cabeza,</text>
+  <text x="640" y="622" class="s">no con presión directa fuerte.</text>
+  <text x="640" y="650" class="c">Dolor referido típico: nuca, detrás de la oreja, hasta el ojo.</text>
+  <text x="640" y="672" class="c">Recorte ampliado del original (Fig. 389). Rótulos en inglés/latín:</text>
+  <text x="640" y="690" class="c">Oblique inferior/superior = oblicuo inferior/superior.</text>
+
+  <line x1="40" y1="740" x2="1080" y2="740" stroke="#c9c4b8"/>
+  <text x="40" y="764" class="c">Base anatómica: Gray, H. (1918). <tspan font-style="italic">Anatomy of the Human Body</tspan> (20.ª ed.). Filadelfia: Lea &amp; Febiger. Figs. 412 y 389. Dominio público.</text>
+  <text x="40" y="783" class="c">Obtenidas de Wikimedia Commons (File:Gray412.png, File:Gray389.png). Marcas y leyenda: elaboración propia; ubicación orientativa (Travell &amp; Simons).</text>
+</svg>
