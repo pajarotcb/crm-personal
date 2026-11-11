@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1120 1060" font-family="Georgia, 'Times New Roman', serif">
+  <title>Lámina 4 — Dolor referido: dónde se siente y dónde se origina</title>
+  <style>
+    .tp{fill:#fff;fill-opacity:.92;stroke:#1a237e;stroke-width:3}
+    .tpd{fill:#fff;fill-opacity:.55;stroke:#1a237e;stroke-width:3;stroke-dasharray:5 3}
+    .n{font:700 16px Helvetica,Arial,sans-serif;fill:#1a237e;text-anchor:middle}
+    .zn{font:700 14px Helvetica,Arial,sans-serif;fill:#fff;text-anchor:middle}
+    .pz{fill:#d32f2f;fill-opacity:.38;stroke:#b71c1c;stroke-width:2;stroke-dasharray:6 3}
+    .zb{fill:#b71c1c}
+    .h1{font:700 26px Georgia,serif;fill:#111}
+    .h2{font:italic 16px Georgia,serif;fill:#444}
+    .t{font:700 17px Helvetica,Arial,sans-serif;fill:#111}
+    .s{font:15px Helvetica,Arial,sans-serif;fill:#333}
+    .c{font:13px Helvetica,Arial,sans-serif;fill:#555}
+    .lk{stroke:#1a237e;stroke-width:2;stroke-dasharray:3 4;fill:none;marker-end:url(#ah)}
+  </style>
+  <defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1a237e"/></marker></defs>
+  <rect width="1120" height="1060" fill="#fffdf8"/>
+  <text x="40" y="46" class="h1">Lámina 4 · Dolor referido: dónde se siente y dónde se origina</text>
+  <text x="40" y="72" class="h2">Zona roja = donde duele · Círculo azul = punto gatillo que lo origina (el rayado indica un músculo profundo, bajo el dibujo)</text>
+
+  <g transform="translate(30,95) scale(1.2)">
+    <image xlink:href="fuente-gray1918/Gray378.png" href="fuente-gray1918/Gray378.png" x="0" y="0" width="620" height="700"/>
+    <!-- zonas de dolor -->
+    <ellipse class="pz" cx="308" cy="150" rx="40" ry="30"/>
+    <ellipse class="pz" cx="222" cy="172" rx="30" ry="22"/>
+    <path d="M470,258 C425,205 335,188 262,176" stroke="#d32f2f" stroke-opacity=".38" stroke-width="26" stroke-linecap="round" fill="none"/>
+    <ellipse class="pz" cx="372" cy="72" rx="58" ry="20"/>
+    <!-- números de zona -->
+    <circle class="zb" cx="308" cy="150" r="11"/><text class="zn" x="308" y="155">1</text>
+    <circle class="zb" cx="448" cy="236" r="11"/><text class="zn" x="448" y="241">2</text>
+    <circle class="zb" cx="372" cy="72" r="11"/><text class="zn" x="372" y="77">3</text>
+    <!-- puntos gatillo -->
+    <circle class="tp" cx="468" cy="432" r="13"/><text class="n" x="468" y="438">1</text>
+    <circle class="tpd" cx="452" cy="318" r="13"/><text class="n" x="452" y="324">2</text>
+    <circle class="tpd" cx="428" cy="348" r="13"/><text class="n" x="428" y="354">3</text>
+    <!-- vínculos origen -> dolor -->
+    <path class="lk" d="M458,420 C400,320 340,230 318,178"/>
+    <path class="lk" d="M455,306 C460,290 462,270 454,248"/>
+    <path class="lk" d="M420,338 C390,250 380,150 374,94"/>
+  </g>
+
+  <rect x="800" y="95" width="300" height="690" rx="6" fill="#fff" stroke="#c9c4b8"/>
+  <text x="816" y="128" class="t">Leyenda</text>
+  <text x="816" y="158" class="s"><tspan font-weight="700" fill="#1a237e">1</tspan> Trapecio superior</text>
+  <text x="816" y="178" class="c">  origina dolor en la sien y detrás del</text>
+  <text x="816" y="196" class="c">  ojo (cefalea tensional)</text>
+  <text x="816" y="228" class="s"><tspan font-weight="700" fill="#1a237e">2</tspan> Suboccipitales (profundo)</text>
+  <text x="816" y="248" class="c">  originan dolor en la nuca, detrás de</text>
+  <text x="816" y="266" class="c">  la oreja, hasta el ojo (banda roja)</text>
+  <text x="816" y="298" class="s"><tspan font-weight="700" fill="#1a237e">3</tspan> Esplenio (profundo)</text>
+  <text x="816" y="318" class="c">  origina dolor en la coronilla y la</text>
+  <text x="816" y="336" class="c">  parte posterior de la cabeza</text>
+  <text x="816" y="376" class="t">Cómo leer</text>
+  <text x="816" y="402" class="c">Seguir la flecha punteada desde el</text>
+  <text x="816" y="420" class="c">círculo azul hasta la zona roja: es el</text>
+  <text x="816" y="438" class="c">recorrido del dolor referido. Para</text>
+  <text x="816" y="456" class="c">aliviar la zona roja se masajea el</text>
+  <text x="816" y="474" class="c">músculo de origen, no la zona roja.</text>
+  <text x="816" y="514" class="t">Advertencia</text>
+  <text x="816" y="540" class="c">Los patrones varían entre personas y</text>
+  <text x="816" y="558" class="c">son orientativos. Un dolor de cabeza</text>
+  <text x="816" y="576" class="c">nuevo, intenso o con fiebre, rigidez,</text>
+  <text x="816" y="594" class="c">mareo o alteraciones de la visión no</text>
+  <text x="816" y="612" class="c">se trata con masaje: consultar.</text>
+  <text x="816" y="652" class="c">Rótulos originales en inglés/latín:</text>
+  <text x="816" y="670" class="c">Occipitalis = occipital · Trapezius =</text>
+  <text x="816" y="688" class="c">trapecio · Temporal fascia = fascia</text>
+  <text x="816" y="706" class="c">temporal · Galea aponeurotica = galea.</text>
+
+  <line x1="40" y1="1000" x2="1080" y2="1000" stroke="#c9c4b8"/>
+  <text x="40" y="1024" class="c">Base anatómica: Gray, H. (1918). <tspan font-style="italic">Anatomy of the Human Body</tspan> (20.ª ed.). Filadelfia: Lea &amp; Febiger. Fig. 378. Dominio público.</text>
+  <text x="40" y="1043" class="c">Obtenida de Wikimedia Commons (File:Gray378.png). Zonas de dolor, puntos y leyenda: elaboración propia sobre patrones descriptos por Travell &amp; Simons; orientativa.</text>
+</svg>

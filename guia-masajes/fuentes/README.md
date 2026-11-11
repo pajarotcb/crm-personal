@@ -10,6 +10,7 @@ Obtenidas de Wikimedia Commons, todas con licencia "Public domain":
 | Gray385.png | 385 | Músculos del cuello, vista lateral |
 | Gray412.png | 412 | Músculos dorsales de la escápula y tríceps (infraespinoso) |
 | Gray389.png | 389 | Músculos profundos de la espalda y suboccipitales |
+| Gray378.png | 378 | Músculos de cabeza, cara y cuello, vista lateral |
 | Gray387.png | 387 | Músculos prevertebrales del cuello (referencia, sin uso aún) |
 
 Las marcas (puntos gatillo, zonas de no compresión, leyendas) son elaboración propia y de ubicación orientativa.

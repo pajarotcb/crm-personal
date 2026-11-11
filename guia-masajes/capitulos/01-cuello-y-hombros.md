@@ -53,8 +53,8 @@
 ![Lámina 3 · Infraespinoso y suboccipitales](../ilustraciones/01-cuello-hombros-lamina3-infraespinoso-suboccipitales.svg)
 *Lámina 3. Base: Gray (1918), Figs. 412 y 389, dominio público. Marcas propias.*
 
-![Mapa de dolor referido (provisorio)](../ilustraciones/01-cuello-hombros-referido.svg)
-*Mapa de dolor referido: **provisorio**, pendiente de rehacer sobre una lámina de cráneo y contrastar con Travell & Simons.*
+![Lámina 4 · Dolor referido](../ilustraciones/01-cuello-hombros-lamina4-dolor-referido.svg)
+*Lámina 4. Base: Gray (1918), Fig. 378, dominio público. Zonas de dolor y puntos: elaboración propia, orientativa.*
 
 Un **punto gatillo** es un nudo doloroso dentro de una banda tensa de músculo. Al presionarlo puede doler **en otro lugar**: eso es el dolor referido.
 
@@ -108,8 +108,8 @@ Un **punto gatillo** es un nudo doloroso dentro de una banda tensa de músculo. 
 
 ## 5. Técnica por músculo
 
-![Maniobras](../ilustraciones/01-cuello-hombros-maniobras.svg)
-*(lámina: `ilustraciones/01-cuello-hombros-maniobras.svg`)*
+![Lámina 5 · Maniobras](../ilustraciones/01-cuello-hombros-lamina5-maniobras.svg)
+*Lámina 5. Base: Gray (1918), Fig. 409, dominio público. Flechas y leyenda: elaboración propia.*
 
 ### 5.1 Trapecio superior
 
@@ -229,8 +229,8 @@ Consultar a un profesional si:
 ## Pendiente
 
 - [x] Láminas anatómicas 1–3 sobre Gray (1918), dominio público, con cita
-- [ ] Mapa de dolor referido: rehacer sobre lámina de cráneo (hoy provisorio)
-- [ ] Maniobras (manos y cuerpo): rehacer con estilo lápiz y color (hoy provisorio)
+- [x] Láminas 4 (dolor referido) y 5 (maniobras) sobre Gray (1918)
+- [ ] Maniobras a otro: evaluar fotos o ilustración propia de manos (el atlas no las incluye)
 - [ ] Verificar ubicación de los puntos gatillo contra Travell & Simons y con un profesional
 - [ ] Contrastar mapas de referido con el manual de Travell y Simons
 - [ ] Revisión por un profesional de salud
