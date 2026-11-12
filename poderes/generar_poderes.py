@@ -15,6 +15,7 @@ from collections import Counter
 
 DESTINO = "secretariabavillage@gmail.com"
 FECHA_ASAMBLEA = "26 de noviembre de 2026"
+FECHA_APERTURA = "23 de noviembre de 2026"  # apertura del registro de poderes
 MAX_PODERES = 10
 ASUNTO = "Carta Poder - Lote {lp} - {pod}"
 
@@ -43,10 +44,10 @@ def fecha_hoy():
     h = d.date.today()
     return f"{h.day} de {meses[h.month-1]} de {h.year}"
 
-def armar(row):
+def armar(row, fecha=None):
     ctx = dict(pod=row["poderdante"].strip(), lp=row["lote_poderdante"].strip(),
                apo=row["apoderado"].strip(), la=row["lote_apoderado"].strip(),
-               fecha=fecha_hoy(), asamblea=FECHA_ASAMBLEA)
+               fecha=fecha or fecha_hoy(), asamblea=FECHA_ASAMBLEA)
     carta = CARTA.format(**ctx)
     asunto = ASUNTO.format(**ctx)
     mailto = "mailto:%s?subject=%s&body=%s" % (
@@ -98,15 +99,16 @@ def main():
         w = csv.writer(reg)
         w.writerow(["poderdante", "lote_poderdante", "apoderado", "lote_apoderado", "estado"])
         for r in rows:
-            ctx, carta, asunto, mailto, wa, link_wa = armar(r)
-            nombre = f"Poder - Lote {ctx['lp']} - {seguro(ctx['pod'])}.txt"
-            with open(os.path.join(a.salida, nombre), "w", encoding="utf-8") as f:
-                f.write(f"=== MENSAJE PARA WHATSAPP ===\n{wa}\n\n")
-                f.write(f"=== LINK DIRECTO A WHATSAPP (abre el chat con el mensaje listo) ===\n{link_wa}\n\n")
-                f.write(f"=== LINK MAILTO (alternativa: se abre el mail ya armado) ===\n{mailto}\n\n")
-                f.write(f"=== ASUNTO ===\n{asunto}\n\n=== TEXTO DEL PODER ===\n{carta}\n")
+            for etiqueta, fecha in (("fecha de hoy", None), ("fecha 23-11", FECHA_APERTURA)):
+                ctx, carta, asunto, mailto, wa, link_wa = armar(r, fecha)
+                nombre = f"Poder - Lote {ctx['lp']} - {seguro(ctx['pod'])} ({etiqueta}).txt"
+                with open(os.path.join(a.salida, nombre), "w", encoding="utf-8") as f:
+                    f.write(f"=== MENSAJE PARA WHATSAPP ===\n{wa}\n\n")
+                    f.write(f"=== LINK DIRECTO A WHATSAPP (abre el chat con el mensaje listo) ===\n{link_wa}\n\n")
+                    f.write(f"=== LINK MAILTO (alternativa: se abre el mail ya armado) ===\n{mailto}\n\n")
+                    f.write(f"=== ASUNTO ===\n{asunto}\n\n=== TEXTO DEL PODER ===\n{carta}\n")
+                print("OK ->", nombre)
             w.writerow([ctx["pod"], ctx["lp"], ctx["apo"], ctx["la"], "enviado a propietario"])
-            print("OK ->", nombre)
 
 if __name__ == "__main__":
     main()
