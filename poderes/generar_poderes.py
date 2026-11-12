@@ -5,7 +5,7 @@ Uso individual:
   python3 generar_poderes.py --poderdante "Juan Pérez" --lote-poderdante 123 \
       --apoderado "Ana Gómez" --lote-apoderado 45 --celular 5491155550000
 
-Uso por lote (CSV con columnas: poderdante,lote_poderdante,apoderado,lote_apoderado,celular):
+Uso por lote (CSV con columnas: poderdante,dni,lote_poderdante,apoderado,lote_apoderado,celular):
   python3 generar_poderes.py --csv poderes.csv
 
 Salida: carpeta ./salida/ con un .txt por poder y registro.csv (control de cupos).
@@ -23,9 +23,10 @@ CARTA = """CARTA PODER
 
 Fecha: {fecha}
 
-Yo, {pod}, propietario del lote {lp}, otorgo poder a {apo}, propietario del lote {la}, para que me represente y vote en mi nombre en la Asamblea del {asamblea}.
+Yo, {pod}, DNI {dni}, propietario del lote {lp}, otorgo poder a {apo}, propietario del lote {la}, para que me represente y vote en mi nombre en la Asamblea del {asamblea}.
 
 Firma: {pod}
+DNI: {dni}
 Lote: {lp}"""
 
 WHATSAPP = """Hola {nombre}! Gracias por tu apoyo. Para dejar tu voto representado hacé esto (2 minutos):
@@ -45,7 +46,7 @@ def fecha_hoy():
     return f"{h.day} de {meses[h.month-1]} de {h.year}"
 
 def armar(row, fecha=None):
-    ctx = dict(pod=row["poderdante"].strip(), lp=row["lote_poderdante"].strip(),
+    ctx = dict(pod=row["poderdante"].strip(), dni=(row.get("dni") or "xxxxxxxx").strip(), lp=row["lote_poderdante"].strip(),
                apo=row["apoderado"].strip(), la=row["lote_apoderado"].strip(),
                fecha=fecha or fecha_hoy(), asamblea=FECHA_ASAMBLEA)
     carta = CARTA.format(**ctx)
@@ -82,6 +83,7 @@ def main():
     ap.add_argument("--poderdante"); ap.add_argument("--lote-poderdante")
     ap.add_argument("--apoderado"); ap.add_argument("--lote-apoderado")
     ap.add_argument("--celular", default="")
+    ap.add_argument("--dni", default="")
     ap.add_argument("--salida", default="salida")
     a = ap.parse_args()
     if a.csv:
@@ -89,7 +91,7 @@ def main():
             rows = list(csv.DictReader(f))
     elif a.poderdante and a.lote_poderdante and a.apoderado and a.lote_apoderado:
         rows = [dict(poderdante=a.poderdante, lote_poderdante=a.lote_poderdante,
-                     apoderado=a.apoderado, lote_apoderado=a.lote_apoderado, celular=a.celular)]
+                     apoderado=a.apoderado, lote_apoderado=a.lote_apoderado, celular=a.celular, dni=a.dni)]
     else:
         ap.error("Pasá --csv o los 4 datos del poder.")
     os.makedirs(a.salida, exist_ok=True)
